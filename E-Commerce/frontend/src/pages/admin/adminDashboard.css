@@ -46,13 +46,14 @@
 
 .admin-sidebar nav ul li {
   margin-bottom: 15px;
+  
 }
 
 .admin-sidebar nav ul li a {
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: #e880ff;
+  color: #4b0082;
   background-color: white;
   padding: 10px;
   border-radius: 6px;

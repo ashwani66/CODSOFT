@@ -79,6 +79,13 @@
   transform: scale(1.2);
 }
 
+/* Product Link */
+
+.product-link{
+  text-decoration: none;
+  align-items: start;
+}
+
 /* Products Grid */
 .products-grid {
   display: grid;
