@@ -1,0 +1,332 @@
+/* ---------------- Base form styling ---------------- */
+.admin-product-form {
+  max-width: 850px;
+  margin: 40px auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+}
+
+.admin-product-form:hover {
+  transform: translateY(-3px);
+}
+
+/* Inputs & selects */
+.admin-product-form input,
+.admin-product-form select {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  box-sizing: border-box;
+  transition: all 0.3s;
+  background: #fdfdfd;
+}
+
+.admin-product-form input:focus,
+.admin-product-form select:focus {
+  outline: none;
+  border-color: #e880ff;
+  box-shadow: 0 0 10px rgba(232, 128, 255, 0.5);
+  background: #fff;
+}
+
+/* Submit button */
+.admin-product-form button[type="submit"] {
+  background: linear-gradient(135deg, #e880ff, #8a2be2);
+  color: white;
+  font-weight: bold;
+  padding: 14px 22px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  transition: all 0.3s;
+  margin-top: 15px;
+  box-shadow: 0 6px 15px rgba(232, 128, 255, 0.4);
+}
+
+.admin-product-form button[type="submit"]:hover {
+  background: linear-gradient(135deg, #d46fe0, #6a0dad);
+  transform: scale(1.05);
+}
+
+/* Headings */
+.admin-product-form h4 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #6a0dad;
+  font-weight: 600;
+  border-left: 4px solid #e880ff;
+  padding-left: 8px;
+}
+
+/* ---------------- Sizes checkboxes ---------------- */
+.sizes-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.sizes-container label {
+  background: #f6f6f6;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.sizes-container input[type="checkbox"] {
+  margin-right: 6px;
+}
+
+.sizes-container label:hover {
+  background: linear-gradient(135deg, #e880ff, #9a4dff);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.image-box {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border: 2px dashed #e880ff; /* Dashed before upload */
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, border-color 0.3s;
+}
+
+.image-box:hover {
+  transform: scale(1.05);
+  border-color: #d46fe0;
+}
+
+.image-box input[type="file"] {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  position: absolute;
+  cursor: pointer;
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  transition: transform 0.3s;
+}
+
+.image-wrapper img:hover {
+  transform: scale(1.05);
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4); /* semi-transparent overlay */
+  opacity: 0;
+  transition: opacity 0.3s;
+  border-radius: 12px;
+}
+
+.image-wrapper:hover .image-overlay {
+  opacity: 1; /* show overlay on hover */
+}
+
+
+
+/* ---------------- Image previews ---------------- */
+.images-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.image-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 120px;
+}
+
+.image-box input[type="file"] {
+  font-size: 12px;
+}
+
+.image-box img {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 2px solid #e880ff;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.image-box img:hover {
+  transform: scale(1.08);
+}
+
+/* ---------------- Reviews section ---------------- */
+.reviews-container {
+  padding: 18px;
+  background: #fafafa;
+  border-radius: 15px;
+  border: 1px solid #eee;
+  box-shadow: inset 0 3px 6px rgba(0,0,0,0.05);
+}
+
+.reviews-container h4 {
+  margin-bottom: 14px;
+  color: #e880ff;
+  font-weight: bold;
+}
+
+.reviews-container input {
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+.reviews-container input:focus {
+  border-color: #e880ff;
+  box-shadow: 0 0 6px rgba(232, 128, 255, 0.4);
+}
+
+/* Review list */
+.reviews-container ul {
+  margin-top: 12px;
+  list-style: none;
+  padding: 0;
+}
+
+.reviews-container li {
+  background: #fff;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  transition: transform 0.2s;
+}
+
+.reviews-container li:hover {
+  transform: scale(1.02);
+}
+
+.reviews-container li button {
+  background: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: 0.3s;
+}
+
+.reviews-container li button:hover {
+  background: #e6363c;
+  transform: scale(1.1);
+}
+
+/* Add review button */
+.reviews-container button[type="button"] {
+  background: linear-gradient(135deg, #6a0dad, #e880ff);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: 0.3s;
+  font-size: 14px;
+}
+
+.reviews-container button[type="button"]:hover {
+  background: linear-gradient(135deg, #4b0082, #d46fe0);
+  transform: translateY(-2px);
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 768px) {
+  .admin-product-form {
+    padding: 18px;
+    max-width: 92%;
+  }
+
+  .image-box,
+  .image-box img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .reviews-container li {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-product-form {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .image-box,
+  .image-box img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .reviews-container li {
+    font-size: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .reviews-container li button {
+    margin-top: 6px;
+  }
+}

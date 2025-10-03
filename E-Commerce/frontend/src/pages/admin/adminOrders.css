@@ -1,0 +1,159 @@
+/* ---------- Container & Title ---------- */
+.admin-container {
+  padding: 20px;
+  margin-left: 100px; /* match sidebar width */
+  background-color: #f4f4f8;
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+  transition: margin-left 0.3s ease;
+}
+
+.admin-title {
+  font-size: 1.8rem;
+  color: #4b0082;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* ---------- Table Wrapper ---------- */
+.table-wrapper {
+  overflow-x: auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+/* ---------- Table ---------- */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 12px 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.table th {
+  background-color: #4b0082;
+  color: white;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+}
+
+.table tr:hover {
+  background-color: #f9f0ff; /* subtle hover only for row */
+  transition: background-color 0.2s ease;
+}
+
+/* ---------- Status Badges ---------- */
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+  display: inline-block;
+  min-width: 85px;
+}
+
+.status-pending {
+  background-color: #f0ad4e; /* yellow */
+}
+
+.status-processing {
+  background-color: #0275d8; /* blue */
+}
+
+.status-shipped {
+  background-color: #6f42c1; /* purple */
+}
+
+.status-delivered {
+  background-color: #28a745; /* green */
+}
+
+/* ---------- Dropdown Status ---------- */
+select {
+  padding: 5px 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  color: #4b0082;
+}
+
+select:disabled {
+  background-color: #e0e0e0;
+  color: #888;
+  cursor: not-allowed;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.delete-btn {
+  background-color: #ff4d4f;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #e60000;
+}
+
+/* ---------- Messages ---------- */
+.error {
+  color: #ff4d4f;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.success {
+  color: #28a745;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.loading {
+  color: #4b0082;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .admin-container {
+    margin-left: 0;
+    padding: 15px;
+  }
+
+  .table th,
+  .table td {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-wrapper {
+    padding: 10px;
+  }
+
+  .table th,
+  .table td {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,328 @@
+/* ---------- General Container ---------- */
+.product-details {
+  display: flex;
+  gap: 30px;
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+  color: #333;
+  align-items: flex-start;
+}
+
+/* ---------- Left Sticky Images - 1/3 width ---------- */
+.images-fixed {
+  position: sticky;
+  top: 120px;
+  left: 3%;
+  right: 5%;
+  border: 1px solid rgba(128, 128, 128, 0.7);
+  flex: 0 0 33.33%;
+  width: 33.33%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2); /* bottom-only shadow */
+}
+
+/* Main Image */
+.main-image-container {
+  width: 100%;
+  max-width: 585px;
+  height: 468px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.main-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+/* Thumbnail Gallery */
+.thumbnail-gallery {
+  display: flex;
+  gap: 8px;
+  /* overflow-x: auto; */
+}
+
+.thumbnail-gallery img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  transition: transform 0.3s ease, border-color 0.2s ease;
+}
+
+.thumbnail-gallery img:hover {
+  /* border-color: #6a1b9a; */
+  transform: scale(1.1);
+}
+
+/* ---------- Right Content ---------- */
+.right-content {
+  flex: 0 0 60%;
+  width: 79%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-left: 30px;
+}
+
+/* Sections */
+.details-section,
+.reviews-section,
+.related-section {
+  width: 100%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.details-section h2 {
+  font-size: 2rem;
+  color: #222;
+}
+
+.details-section .price {
+  font-size: 22px;
+  font-weight: 700;
+  color: #6a1b9a;
+}
+
+.details-section p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Buttons */
+.add-to-cart-btn,
+.rate-btn {
+  background: #6a1b9a;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  width: fit-content;
+  margin-top: 10px;
+      margin-left: 30px;
+}
+
+.add-to-cart-btn:hover,
+.rate-btn:hover {
+  background: #4b0f7a;
+  transform: translateY(-2px);
+}
+
+/* ---------- Reviews Form ---------- */
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+  font-family: inherit;
+}
+
+.review-form textarea {
+  width: 97%;
+  min-height: 100px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 12px;
+  font-size: 14px;
+  resize: vertical;
+  transition: border 0.3s ease;
+}
+
+.review-form textarea:focus {
+  border-color: #6a1b9a;
+  outline: none;
+}
+
+.review-form button {
+  padding: 12px;
+  background: #6a1b9a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.review-form button:hover {
+  background: #4b0f7a;
+}
+
+/* ---------- Custom Dropdown ---------- */
+.custom-dropdown {
+  position: relative;
+  width:   97%;;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px 12px;
+  background: #fff;
+  user-select: none;
+  font-size: 14px;
+  color: #333;
+}
+
+.selected-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+}
+
+.arrow-dropdown {
+  /* margin-left: 94%; */
+  font-size: 12px;
+  color: #6a1b9a;
+}
+
+.options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 5px;
+  box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  overflow: hidden;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.option {
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.option:hover {
+  background: #f5e6fa;
+  color: #6a1b9a;
+}
+
+/* ---------- Reviews List ---------- */
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.review-card {
+  background: #f8f8f8;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 4px solid #6a1b9a;
+}
+
+.review-user {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.review-rating {
+  font-weight: bold;
+  color: #ffa500;
+}
+
+.review-comment {
+  font-size: 1rem;
+  color: #333;
+}
+
+/* ---------- Related Products ---------- */
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 15px;
+}
+
+.related-card {
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  text-align: center;
+  padding-bottom: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.related-card:hover {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transform: translateY(-4px) scale(1.02);
+}
+
+.related-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
+  transition: transform 0.3s ease;
+}
+
+.related-card:hover img {
+  transform: scale(1.05);
+}
+
+/* ---------- Animations ---------- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1200px) {
+  .right-content { width: 70%; margin-left: 20px; }
+  .images-fixed { flex: 0 0 28%; width: 28%; }
+   .arrow {
+      
+    }
+}
+
+@media (max-width: 1024px) {
+  .product-details { flex-direction: column; margin-right: 10%; }
+  .images-fixed { position: relative; top: 0; width: 85%; flex: 1 1 100%; height: auto; }
+  .right-content { width: 100%; margin-left: 0; }
+  .main-image-container { max-width: 100%; height: 300px; }
+   .arrow {
+      
+    }
+}
+
+@media (max-width: 768px) {
+  .thumbnail-gallery img { width: 70px; height: 70px; }
+   .arrow {
+              /* margin-left: 83%; */
+    }
+}
+
+@media (max-width: 480px) {
+  .thumbnail-gallery img { width: 50px; height: 50px; }
+  .custom-dropdown { width: 88%; }
+  .review-form textarea { min-height: 80px; }
+  .review-form textarea {
+    width: 88%;}
+    .arrow {
+/* width: 83%; */
+    }
+}
+

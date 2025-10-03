@@ -1,0 +1,261 @@
+.cart-container {
+  overflow-x: scroll;
+  height: 636px;
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+/* .cart-container::-webkit-scrollbar-{
+   display: none;
+} */
+.cart-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  margin-top: 0px;
+  background-color: #fff;
+  text-align: center;
+  padding: 0px 0;
+  border-bottom: 1px solid #ddd;
+}
+.cart-page {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+
+  font-family: "Arial", sans-serif;
+}
+
+h1 {
+  font-family: "Arial", sans-serif;
+
+  text-align: center;
+  color: #6a1b9a;
+  margin-bottom: 30px;
+}
+
+.loading {
+  text-align: center;
+  color: #6a1b9a;
+}
+
+.error {
+  color: red;
+  text-align: center;
+}
+
+.empty {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+/* ---------- Cart Content ---------- */
+.cart-content {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  position: relative;
+}
+
+/* ---------- Cart Items ---------- */
+.cart-items {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cart-item {
+  display: flex;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.cart-item-image {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+}
+
+.cart-item-details {
+  flex: 1;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cart-item-details h3 {
+  margin: 0;
+  color: #6a1b9a;
+  font-size: 18px;
+}
+
+.price {
+  font-weight: 600;
+  margin: 5px 0;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.quantity-controls button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 6px;
+  background-color: #e880ff;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.quantity-controls button:hover {
+  background-color: #d26de0;
+}
+
+.subtotal {
+  font-weight: 500;
+}
+
+.remove-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #ff6b6b;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.remove-btn:hover {
+  background-color: #e55b5b;
+}
+
+.cart-summary {
+  flex: 1;
+  max-width: 350px;
+  background: #fff;
+  border: 1px solid #ddd;
+  position: sticky;
+  top: 70px;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.summary-title {
+  font-size: 20px;
+  margin-bottom: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.summary-products {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #555;
+}
+
+.summary-item .summary-name {
+  flex: 1;
+}
+
+.summary-item .summary-price {
+  font-weight: 500;
+  color: #222;
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0;
+  font-weight: bold;
+  font-size: 16px;
+  color: #000;
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 12px;
+  background: #ff6f61;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.checkout-btn:hover {
+  background: #e65a4f;
+}
+
+/* ---------- Cart Summary Responsive ---------- */
+@media (max-width: 900px) {
+  .cart-content {
+    flex-direction: column; /* stack cart items and summary */
+  }
+
+  .cart-summary {
+    position: relative; /* remove sticky/top */
+    top: auto;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 20px;
+  }
+
+  .cart-item {
+    flex-direction: column; /* stack image & details */
+    align-items: center;
+    text-align: center;
+    gap: 10px; /* spacing between image & details */
+  }
+
+  .cart-item-image {
+    width: 100%; /* responsive image */
+    height: auto;
+    object-fit: contain;
+  }
+
+  .quantity-controls {
+    justify-content: center; /* center buttons under image */
+  }
+}
+
+/* ---------- Optional smaller screens ---------- */
+@media (max-width: 480px) {
+  .cart-summary {
+    padding: 15px;
+  }
+
+  .checkout-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .summary-item,
+  .summary-total {
+    font-size: 13px;
+  }
+
+  .summary-title {
+    font-size: 18px;
+  }
+}

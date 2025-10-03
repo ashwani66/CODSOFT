@@ -1,0 +1,108 @@
+/* Container */
+.auth-container {
+    margin-left: -8px;
+    margin-top: 8px;
+    width: 101%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e880ffc2 0%, #ffc0e8 100%);
+  font-family: 'Arial', sans-serif;
+}
+
+/* Card */
+.auth-card {
+  background: white;
+  padding-top: 40px;
+    padding-right: 65px;
+    padding-bottom: 40px;
+    padding-left: 40px;
+  border-radius: 15px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.auth-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* Headings */
+.auth-card h2 {
+  margin-bottom: 25px;
+  color: #e880ff;
+}
+
+/* Inputs */
+.auth-card input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  transition: 0.3s;
+}
+.auth-card input:focus {
+  border-color: #e880ff;
+  box-shadow: 0 0 8px rgba(232, 128, 255, 0.3);
+  outline: none;
+}
+
+.auth-card .admin-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.auth-card .admin-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #4a148c; /* makes checkbox purple */
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.auth-card .admin-checkbox input[type="checkbox"]:hover {
+  transform: scale(1.2);
+}
+
+/* Button */
+.auth-card button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #e880ff;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.auth-card button:hover {
+  background-color: #d05fe0;
+  transform: scale(1.03);
+}
+
+/* Links */
+.auth-card p {
+  margin-top: 15px;
+  font-size: 0.9rem;
+}
+.auth-card p a {
+  color: #e880ff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+.auth-card p a:hover {
+  color: #d05fe0;
+  text-decoration: underline;
+}

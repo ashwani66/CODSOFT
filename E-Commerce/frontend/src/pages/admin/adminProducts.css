@@ -1,0 +1,152 @@
+/* ---------- Admin Container ---------- */
+.admin-container {
+  max-width: 1000px;
+  margin: 30px  auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  font-family: "Segoe UI", sans-serif;
+  overflow-x: hidden; /* prevent overflow outside container */
+}
+
+/* Table wrapper for scroll */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto; /* allow horizontal scroll */
+  -webkit-overflow-scrolling: touch; /* smooth scroll for mobile */
+  scrollbar-width: thin;       /* Firefox */
+  scrollbar-color: #9b4dff #f0e6ff; /* thumb and track */
+}
+
+/* Webkit scrollbar */
+.table-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+.table-wrapper::-webkit-scrollbar-track {
+  background: #f0e6ff;
+  border-radius: 4px;
+}
+.table-wrapper::-webkit-scrollbar-thumb {
+  background-color: #9b4dff;
+  border-radius: 4px;
+  border: 2px solid #f0e6ff;
+}
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background-color: #6a1b9a;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  min-width: 700px; /* forces horizontal scroll if screen < 700px */
+  border-collapse: collapse;
+}
+
+/* Table header & cells */
+.table th, .table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+.table th {
+  background: #e880ffc2;
+  color: white;
+  font-weight: 600;
+  border-radius: 8px 8px 0 0;
+}
+
+.table tr:hover {
+  background: #f5f5f5;
+  transition: 0.2s;
+}
+
+/* Buttons */
+.btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 6px;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.edit-btn {
+  background: #4b0082;
+  color: white;
+}
+.edit-btn:hover {
+  background: #6a0dad;
+  transform: scale(1.05);
+}
+
+.delete-btn {
+  background: #ff4d4f;
+  color: white;
+}
+.delete-btn:hover {
+  background: #e6363c;
+  transform: scale(1.05);
+}
+
+/* Product thumbnail */
+.product-thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease-in-out, border-color 0.2s;
+  cursor: pointer;
+}
+.product-thumbnail:hover {
+  transform: scale(1.1);
+  border-color: #e880ffc2;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .admin-container {
+    padding: 15px;
+  }
+
+  .table th, .table td {
+    padding: 10px 8px;
+    font-size: 14px;
+  }
+
+  .product-thumbnail {
+    width: 50px;
+    height: 50px;
+  }
+
+  .btn {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-container {
+    padding: 10px;
+  }
+
+  .table th, .table td {
+    padding: 8px 6px;
+    font-size: 12px;
+  }
+
+  .product-thumbnail {
+    width: 40px;
+    height: 40px;
+  }
+
+  .btn {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+}

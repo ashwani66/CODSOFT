@@ -1,0 +1,205 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+  transition: all 0.3s ease;
+}
+
+/* ---------- Sidebar ---------- */
+.admin-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  
+  height: 100vh;
+  background: #4b0082;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
+}
+
+.admin-sidebar.sidebar-closed {
+  width: 70px;
+}
+
+.admin-sidebar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.3s ease;
+}
+
+/* Navigation */
+.admin-sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+}
+
+.admin-sidebar nav ul li {
+  margin-bottom: 15px;
+}
+
+.admin-sidebar nav ul li a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #e880ff;
+  background-color: white;
+  padding: 10px;
+  border-radius: 6px;
+  transition: 0.3s;
+  font-weight: 500;
+}
+
+.admin-sidebar nav ul li a .icon {
+  font-size: 1.2rem;
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  width: 24px;
+}
+
+.admin-sidebar nav ul li a.active,
+.admin-sidebar nav ul li a:hover {
+  background: #e880ff;
+  color: white;
+  box-shadow: 0 0 8px rgba(232, 128, 255, 0.5);
+}
+
+/* Logout Button */
+.logout-btn {
+  margin-top: 200px;
+  padding: 10px;
+  border: none;
+  background: #e880ff;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  background: #d46fe0;
+}
+
+/* ---------- Mobile Sidebar ---------- */
+.admin-sidebar.mobile-open {
+  transform: translateX(0);
+}
+
+.mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 900;
+}
+
+/* ---------- Main Content ---------- */
+.admin-main {
+  margin-left: 220px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease;
+}
+
+.admin-layout.sidebar-closed .admin-main {
+  margin-left: 70px;
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ed9dfe;
+  padding: 15px 20px;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 500;
+}
+
+.admin-header h1 {
+  margin: 0;
+  padding-left: 25px;
+  font-size: 1.5rem;
+}
+
+/* Toggle Button */
+.sidebar-btn {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+}
+
+/* ---------- Content ---------- */
+.admin-content {
+  flex: 1;
+  padding: 20px;
+  background: #f4f4f8;
+  min-height: 100vh;
+}
+
+/* ---------- Responsive View ---------- */
+@media (max-width: 1024px) {
+  .admin-sidebar {
+    width: 180px;
+  }
+
+  .admin-layout.sidebar-closed .admin-main {
+    margin-left: 180px;
+  }
+
+  .sidebar-btn {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+}
+
+@media (max-width: 768px) {
+  .admin-sidebar {
+    transform: translateX(-100%);
+    width: 220px;
+  }
+
+  .admin-layout.sidebar-closed .admin-main {
+    margin-left: 0;
+  }
+
+  .admin-main {
+    margin-left: 0;
+  }
+
+  .sidebar-btn {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+}

@@ -1,0 +1,148 @@
+.checkout-page {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+h1 {
+  text-align: center;
+  color: #6a1b9a;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #666;
+}
+
+.loading,
+.error,
+.empty {
+  text-align: center;
+  margin: 10px 0;
+}
+
+.checkout-content {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  position: relative;
+}
+
+/* ---------- Left: Form ---------- */
+.checkout-form-container {
+  flex: 2;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.checkout-form h2 {
+  margin-bottom: 15px;
+  color: #6a1b9a;
+}
+
+.checkout-form label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.checkout-form input,
+.checkout-form select {
+  margin-top: 5px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.checkout-btn {
+  padding: 10px 20px;
+  background-color: #6a1b9a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.checkout-btn:hover {
+  background-color: #4b0f7a;
+}
+
+/* ---------- Right: Order Summary ---------- */
+.order-summary {
+  flex: 1;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+.order-summary h2 {
+  color: #6a1b9a;
+  margin-bottom: 15px;
+}
+
+.summary-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.summary-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.summary-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.summary-details {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.summary-details .name {
+  font-weight: 500;
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 16px;
+  margin-top: 15px;
+  border-top: 1px dashed #ccc;
+  padding-top: 10px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .checkout-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .order-summary {
+    position: relative;
+    top: auto;
+    width: 100%;
+    margin-top: 20px;
+  }
+}
