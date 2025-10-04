@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import "./AdminLogin.css";
+import "./adminLogin.css";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
