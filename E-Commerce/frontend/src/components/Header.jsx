@@ -61,7 +61,7 @@ const Header = () => {
     <header className="header">
       <div className="logo">
         <NavLink to="/" end>
-        <img className="logo-img" src="../../public/logo.png" alt="" />
+        <img className="logo-img" src="/logo.png" alt="" />
         </NavLink>
       </div>
 
