@@ -46,7 +46,6 @@
 .thumbnail-gallery {
   display: flex;
   gap: 8px;
-  /* overflow-x: auto; */
 }
 
 .thumbnail-gallery img {
@@ -60,7 +59,6 @@
 }
 
 .thumbnail-gallery img:hover {
-  /* border-color: #6a1b9a; */
   transform: scale(1.1);
 }
 
@@ -114,7 +112,7 @@
   transition: background 0.3s ease, transform 0.2s ease;
   width: fit-content;
   margin-top: 10px;
-      margin-left: 30px;
+  margin-left: 30px;
 }
 
 .add-to-cart-btn:hover,
@@ -167,7 +165,7 @@
 /* ---------- Custom Dropdown ---------- */
 .custom-dropdown {
   position: relative;
-  width:   97%;;
+  width: 97%;
   cursor: pointer;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -186,7 +184,6 @@
 }
 
 .arrow-dropdown {
-  /* margin-left: 94%; */
   font-size: 12px;
   color: #6a1b9a;
 }
@@ -250,32 +247,36 @@
 /* ---------- Related Products ---------- */
 .related-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(4, 1fr); /* 4 per row on desktop */
+  gap: 20px;
+  width: 100%;
 }
 
 .related-card {
   text-decoration: none;
   color: inherit;
   border: 1px solid #ddd;
-  border-radius: 10px;
-  overflow: hidden;
+  border-radius: 12px;
   background: #fff;
   text-align: center;
-  padding-bottom: 10px;
+  padding: 12px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .related-card:hover {
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   transform: translateY(-4px) scale(1.02);
 }
 
 .related-card img {
   width: 100%;
-  height: 140px;
+  max-height: 160px;
   object-fit: cover;
-  border-bottom: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 10px;
   transition: transform 0.3s ease;
 }
 
@@ -283,46 +284,110 @@
   transform: scale(1.05);
 }
 
+.related-card h3 {
+  font-size: 1rem;
+  margin: 8px 0 4px;
+  color: #333;
+}
+
+.related-card p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
 /* ---------- Animations ---------- */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1200px) {
-  .right-content { width: 70%; margin-left: 20px; }
-  .images-fixed { flex: 0 0 28%; width: 28%; }
-   .arrow {
-      
-    }
+  .right-content {
+    width: 70%;
+    margin-left: 20px;
+  }
+  .images-fixed {
+    flex: 0 0 28%;
+    width: 28%;
+  }
+  .related-grid {
+    grid-template-columns: repeat(3, 1fr);
+  } /* 3 per row */
 }
 
 @media (max-width: 1024px) {
-  .product-details { flex-direction: column; margin-right: 10%; }
-  .images-fixed { position: relative; top: 0; width: 85%; flex: 1 1 100%; height: auto; }
-  .right-content { width: 100%; margin-left: 0; }
-  .main-image-container { max-width: 100%; height: 300px; }
-   .arrow {
-      
-    }
+  .product-details {
+    flex-direction: column;
+    margin-right: 10%;
+  }
+  .images-fixed {
+    position: relative;
+    top: 0;
+    width: 100%;
+    flex: 1 1 100%;
+    height: auto;
+  }
+  .right-content {
+    width: 100%;
+    margin-left: 0;
+  }
+  .main-image-container {
+    max-width: 100%;
+    height: 300px;
+  }
+  .related-grid {
+    grid-template-columns: repeat(2, 1fr);
+  } /* 2 per row */
 }
 
 @media (max-width: 768px) {
-  .thumbnail-gallery img { width: 70px; height: 70px; }
-   .arrow {
-              /* margin-left: 83%; */
-    }
+  .thumbnail-gallery img {
+    width: 70px;
+    height: 70px;
+  }
+  .related-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .related-card img {
+    max-height: 120px;
+  }
+  .related-card h3 {
+    font-size: 0.9rem;
+  }
+  .related-card p {
+    font-size: 0.8rem;
+  }
 }
 
 @media (max-width: 480px) {
-  .thumbnail-gallery img { width: 50px; height: 50px; }
-  .custom-dropdown { width: 88%; }
-  .review-form textarea { min-height: 80px; }
+  .thumbnail-gallery img {
+    width: 50px;
+    height: 50px;
+  }
+  .custom-dropdown {
+    width: 88%;
+  }
   .review-form textarea {
-    width: 88%;}
-    .arrow {
-/* width: 83%; */
-    }
+    width: 88%;
+    min-height: 80px;
+  }
+  .related-grid {
+    grid-template-columns: 1fr;
+  } /* 1 per row */
+  .related-card img {
+    max-height: 100px;
+  }
+  .related-card h3 {
+    font-size: 0.85rem;
+  }
+  .related-card p {
+    font-size: 0.75rem;
+  }
 }
-
