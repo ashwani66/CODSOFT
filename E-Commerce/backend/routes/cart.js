@@ -7,14 +7,27 @@ const { verifyUser } = require("../middleware/auth");
 // ---------- Get user's cart ----------
 router.get("/", verifyUser, async (req, res) => {
   try {
-    const cart = await Cart.findOne({ userId: req.user._id }).populate("products.productId");
-    if (!cart) return res.status(200).json({ products: [] });
+    let cart = await Cart.findOne({ userId: req.user._id }).populate("products.productId");
+
+    if (!cart) {
+      return res.status(200).json({ products: [] });
+    }
+
+    // 🔥 Auto-clean: remove any product entries where productId is null
+    cart.products = cart.products.filter((p) => p.productId !== null);
+
+    // Save if changes were made
+    if (cart.isModified("products")) {
+      await cart.save();
+    }
+
     res.status(200).json(cart);
   } catch (err) {
     console.error("Error fetching cart:", err);
     res.status(500).json({ message: "Server error" });
   }
 });
+
 
 // ---------- Add product to cart ----------
 router.post("/", verifyUser, async (req, res) => {

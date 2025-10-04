@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Star } from "lucide-react";
 import "./productCard.css";
 
+const API = import.meta.env.VITE_API_BASE_URL;
+
 const ProductCard = ({ product, onAddToCart }) => {
   const discount = product.oldPrice
     ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
@@ -18,7 +20,7 @@ const ProductCard = ({ product, onAddToCart }) => {
         <img
           src={
             product.images && product.images.length > 0
-              ? `http://localhost:5000/${product.images[0]}`
+              ? `${API}/${product.images[0]}`
               : "https://via.placeholder.com/250"
           }
           alt={product.name}

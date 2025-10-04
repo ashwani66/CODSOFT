@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./checkoutPage.css";
 
+const API = import.meta.env.VITE_API_BASE_URL;
+
+
 const CheckoutPage = () => {
   const [cart, setCart] = useState({ products: [] });
   const [loading, setLoading] = useState(false);
@@ -22,7 +25,7 @@ const CheckoutPage = () => {
     setLoading(true);
     setError("");
     try {
-      const res = await axios.get("http://localhost:5000/api/cart", {
+      const res = await axios.get(`${API}/api/cart`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCart(res.data);
@@ -82,7 +85,7 @@ const CheckoutPage = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/order",
+        `${API}/api/order`,
         orderPayload,
         {
           headers: {
@@ -174,7 +177,7 @@ const CheckoutPage = () => {
               {cart.products.map((item) => (
                 <div className="summary-item" key={item.productId._id}>
                   <img
-                    src={`http://localhost:5000/${item.productId.images[0]}`}
+                    src={`${API}/${item.productId.images[0]}`}
                     alt={item.productId.name}
                   />
                   <div className="summary-details">

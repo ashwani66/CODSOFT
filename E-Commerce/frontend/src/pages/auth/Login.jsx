@@ -1,7 +1,9 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext"; // Context to manage auth state
 import { useNavigate } from "react-router-dom"; // For programmatic navigation
-import "./Auth.css";
+import "./auth.css";
+
+const API = import.meta.env.VITE_API_BASE_URL;
 
 const Login = () => {
   // Get login function from AuthContext to update auth state
@@ -20,7 +22,7 @@ const Login = () => {
 
     try {
       // POST request to backend login endpoint
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch(`${API}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }), // Send email and password

@@ -2,14 +2,16 @@ import axios from "axios";
 
 // ---------- Axios instance ----------
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: import.meta.env.VITE_API_BASE_URL ,
 });
+
+
 
 // ---------- Request interceptor to add token ----------
 API.interceptors.request.use(
   function (config) {
     const token = localStorage.getItem("token");
-    if (token && !config.url.startsWith("/auth")) {
+    if (token && !config.url.startsWith("/api/auth")) {
       config.headers.Authorization = "Bearer " + token;
     }
     return config;
@@ -23,7 +25,7 @@ API.interceptors.request.use(
 
 export async function fetchProducts() {
   try {
-    const response = await API.get("/products");
+    const response = await API.get("/api/products");
     return response.data; // Expecting an array of products
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -33,7 +35,7 @@ export async function fetchProducts() {
 
 export async function deleteProduct(id) {
   try {
-    const response = await API.delete("/products/" + id);
+    const response = await API.delete("/api/products/" + id);
     return response.data;
   } catch (error) {
     console.error("Error deleting product with id " + id + ":", error);
@@ -43,7 +45,7 @@ export async function deleteProduct(id) {
 
 export async function updateProduct(id, formData) {
   try {
-    const response = await API.put("/products/" + id, formData, {
+    const response = await API.put("/api/products/" + id, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     return response.data;
@@ -57,7 +59,7 @@ export async function updateProduct(id, formData) {
 
 export async function getUsers() {
   try {
-    const response = await API.get("/users");
+    const response = await API.get("/api/users");
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -67,7 +69,7 @@ export async function getUsers() {
 
 export async function deleteUser(id) {
   try {
-    const response = await API.delete("/users/" + id);
+    const response = await API.delete("/api/users/" + id);
     return response.data;
   } catch (error) {
     console.error("Error deleting user with id " + id + ":", error);
@@ -79,7 +81,7 @@ export async function deleteUser(id) {
 
 export async function fetchOrders() {
   try {
-    const response = await API.get("/order");
+    const response = await API.get("/api/order");
     return response.data;
   } catch (error) {
     console.error("Error fetching orders:", error);
@@ -89,7 +91,7 @@ export async function fetchOrders() {
 
 export async function updateOrder(id, data) {
   try {
-    const response = await API.put("/order/" + id, data);
+    const response = await API.put("/api/order/" + id, data);
     return response.data;
   } catch (error) {
     console.error("Error updating order with id " + id + ":", error);
@@ -99,7 +101,7 @@ export async function updateOrder(id, data) {
 
 export async function deleteOrder(id) {
   try {
-    const response = await API.delete("/order/" + id);
+    const response = await API.delete("/api/order/" + id);
     return response.data;
   } catch (error) {
     console.error("Error deleting order with id " + id + ":", error);
@@ -111,7 +113,7 @@ export async function deleteOrder(id) {
 
 export async function fetchReviews(productId) {
   try {
-    const response = await API.get("/review/" + productId);
+    const response = await API.get("/api/review/" + productId);
     return response.data;
   } catch (error) {
     console.error("Error fetching reviews for product " + productId + ":", error);
@@ -121,7 +123,7 @@ export async function fetchReviews(productId) {
 
 export async function addReview(reviewData) {
   try {
-    const response = await API.post("/review", reviewData);
+    const response = await API.post("/api/review", reviewData);
     return response.data;
   } catch (error) {
     console.error("Error adding review:", error);
@@ -131,7 +133,7 @@ export async function addReview(reviewData) {
 
 export async function deleteReview(id) {
   try {
-    const response = await API.delete("/review/" + id);
+    const response = await API.delete("/api/review/" + id);
     return response.data;
   } catch (error) {
     console.error("Error deleting review " + id + ":", error);

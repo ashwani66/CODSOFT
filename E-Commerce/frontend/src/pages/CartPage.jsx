@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./cartPage.css";
 
+const API = import.meta.env.VITE_API_BASE_URL;
+
 const CartPage = () => {
   const [cart, setCart] = useState({ products: [] });
   const [loading, setLoading] = useState(false);
@@ -14,7 +16,7 @@ const CartPage = () => {
     setLoading(true);
     setError("");
     try {
-      const res = await axios.get("http://localhost:5000/api/cart", {
+      const res = await axios.get(`${API}/api/cart`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCart(res.data);
@@ -31,7 +33,7 @@ const CartPage = () => {
     if (quantity <= 0) return;
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/cart/${productId}`,
+        `${API}/api/cart/${productId}`,
         { quantity },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -46,7 +48,7 @@ const CartPage = () => {
   const removeFromCart = async (productId) => {
     try {
       const res = await axios.delete(
-        `http://localhost:5000/api/cart/${productId}`,
+        `${API}/api/cart/${productId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setCart(res.data);
@@ -85,7 +87,7 @@ const CartPage = () => {
             {cart.products.map((item) => (
               <div className="cart-item" key={item.productId._id}>
                 <img
-                  src={`http://localhost:5000/${item.productId.images[0]}`}
+                  src={`${API}/${item.productId.images[0]}`}
                   alt={item.productId.name}
                   className="cart-item-image"
                 />

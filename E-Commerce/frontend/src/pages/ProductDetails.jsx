@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import "./productDetails.css";
 import { fetchProducts, fetchReviews, addReview } from "../api/products";
 
+const API = import.meta.env.VITE_API_BASE_URL;
+
 const ProductDetails = () => {
   const { id } = useParams();
 
@@ -37,7 +39,7 @@ const ProductDetails = () => {
         const currentProduct = products.find((p) => p._id === id);
         if (currentProduct) {
           setProduct(currentProduct);
-          setMainImage(`http://localhost:5000/${currentProduct.images[0]}`);
+          setMainImage(`${API}/${currentProduct.images[0]}`);
         }
       } catch (err) {
         console.error("Error fetching product:", err);
@@ -114,9 +116,9 @@ const ProductDetails = () => {
           {product.images.map((img, i) => (
             <img
               key={i}
-              src={`http://localhost:5000/${img}`}
+              src={`${API}/${img}`}
               alt={`thumb-${i}`}
-              onClick={() => setMainImage(`http://localhost:5000/${img}`)}
+              onClick={() => setMainImage(`${API}/${img}`)}
             />
           ))}
         </div>
@@ -233,7 +235,7 @@ const ProductDetails = () => {
   <img
     src={
       item.images && item.images.length > 0
-        ? `http://localhost:5000/${item.images[0]}`
+        ? `${API}/${item.images[0]}`
         : ""
     }
     alt={item.name}

@@ -4,6 +4,8 @@ import { fetchProducts } from "../api/products";
 import ProductCard from "../components/ProductCard";
 import "./productsPage.css";
 
+const API = import.meta.env.VITE_API_BASE_URL;
+
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -68,7 +70,7 @@ const ProductsPage = () => {
   const handleAddToCart = async (productId) => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/api/cart", {
+      const res = await fetch(`${API}/api/cart`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

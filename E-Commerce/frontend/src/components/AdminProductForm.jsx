@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./adminProductForm.css";
 
+const API = import.meta.env.VITE_API_BASE_URL;
+
 const AdminProductForm = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -74,7 +76,7 @@ const AdminProductForm = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch("http://localhost:5000/api/products", {
+      const res = await fetch(`${API}/api/products`, {
         method: "POST",
         headers: { Authorization: token ? `Bearer ${token}` : "" },
         body: formData,

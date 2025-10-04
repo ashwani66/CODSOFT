@@ -5,6 +5,8 @@ import {FaSearch} from "react-icons/fa"
 import axios from "axios";
 import "./header.css";
 
+const API = import.meta.env.VITE_API_BASE_URL;
+
 const Header = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ const Header = () => {
   const fetchCartCount = async () => {
     if (!token) return;
     try {
-      const res = await axios.get("http://localhost:5000/api/cart", {
+      const res = await axios.get(`${API}/api/cart`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const total =

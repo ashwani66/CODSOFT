@@ -3,6 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { fetchProducts, updateProduct } from "../../api/products";
 import "./adminEditProduct.css";
 
+
+const API = import.meta.env.VITE_API_BASE_URL;
+
 const AdminEditProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -118,7 +121,7 @@ const AdminEditProduct = () => {
           {oldImages.map((img, idx) =>
             img ? (
               <div className="image-box" key={idx}>
-                <img src={img.startsWith("http") ? img : `http://localhost:5000/${img}`} alt={`Old ${idx}`} />
+                <img src={img.startsWith("http") ? img : `${API}/${img}`} alt={`Old ${idx}`} />
               </div>
             ) : (
               <div className="image-box placeholder" key={idx}>

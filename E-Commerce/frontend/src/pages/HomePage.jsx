@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./homePage.css";
 
+const API = import.meta.env.VITE_API_BASE_URL;
+
+
 const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [current, setCurrent] = useState(0);
@@ -16,7 +19,7 @@ const HomePage = () => {
 
   // Fetch products from API
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+    fetch(`${API}/api/products`)
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => console.error(err));
@@ -37,7 +40,7 @@ const HomePage = () => {
   const handleAddToCart = async (productId) => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/api/cart", {
+      const res = await fetch(`${API}/api/cart`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +93,7 @@ const HomePage = () => {
             <div key={product._id} className="product-card">
               <Link to={`/products/${product._id}`} className="product-link">
                 <img
-                  src={product.images?.[0] ? `http://localhost:5000/${product.images[0]}` : ""}
+                  src={product.images?.[0] ? `${API}/${product.images[0]}` : ""}
                   alt={product.name}
                   className="product-img"
                 />

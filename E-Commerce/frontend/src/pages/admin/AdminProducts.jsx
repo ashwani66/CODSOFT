@@ -3,6 +3,8 @@ import "./adminProducts.css";
 import { fetchProducts as fetchProductsAPI, deleteProduct } from "../../api/products.js";
 import { useNavigate } from "react-router-dom";
 
+const API = import.meta.env.VITE_API_BASE_URL;
+
 const AdminProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -77,7 +79,7 @@ const AdminProducts = () => {
                   <td>
                     {p.images && p.images.length > 0 ? (
                       <img
-                        src={`http://localhost:5000/${p.images[0]}`}
+                        src={`${API}/${p.images[0]}`}
                         alt={p.name}
                         className="product-thumbnail"
                       />
