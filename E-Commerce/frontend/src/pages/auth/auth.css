@@ -1,13 +1,12 @@
 /* Container */
 .auth-container {
-    margin-left: -8px;
-    margin-top: 8px;
+       margin-left: -8px;
     width: 101%;
-  min-height: 100vh;
+    min-height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #e880ffc2 0%, #ffc0e8 100%);
+  background:#faf8fc;
   font-family: 'Arial', sans-serif;
 }
 
@@ -106,3 +105,39 @@
   color: #d05fe0;
   text-decoration: underline;
 }
+
+
+
+@media (max-width: 900px) {
+
+ .auth-container {
+   
+    width: 101%;
+  min-height: 75vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ background:#faf8fc;
+  font-family: 'Arial', sans-serif;
+}
+
+  .auth-card {
+  background: white;
+  padding-top: 40px;
+    padding-right: 65px;
+    padding-bottom: 40px;
+    padding-left: 40px;
+  border-radius: 15px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  width: 60%;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+  
+}
+
+
+@media (max-width: 480px) {
+
+}
+

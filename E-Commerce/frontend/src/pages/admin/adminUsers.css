@@ -1,4 +1,4 @@
-/* .admin-container {
+.admin-container {
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #f5f5f5;
@@ -55,4 +55,4 @@
 .btn:hover {
   background: #9c27b0;
   transform: scale(1.05);
-} */
+}

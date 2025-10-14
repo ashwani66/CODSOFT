@@ -20,21 +20,39 @@ const upload = multer({ storage });
 // --------------------- Helper to process images ---------------------
 const processImages = async (files) => {
   const images = [];
-  for (const file of files) {
-    const filename = Date.now() + '-' + file.originalname.replace(/\s+/g, '_') + '.webp';
-    const filepath = path.join('uploads', filename);
 
-    // Resize & compress using Sharp
-    await sharp(file.path)
-      .resize({ width: 800 })
-      .webp({ quality: 70 })
-      .toFile(filepath);
+  for (const file of files) {
+    const baseName = Date.now() + '-' + file.originalname.replace(/\s+/g, '_');
+
+    // Define sizes (width in px)
+    const sizes = {
+      small: 400,
+      medium: 800,
+      large: 1200,
+    };
+
+    const imageObj = {};
+
+    // Loop through each size
+    for (const [sizeName, width] of Object.entries(sizes)) {
+      const filename = `${baseName}-${sizeName}.webp`;
+      const filepath = path.join('uploads', filename);
+
+      await sharp(file.path)
+        .resize({ width })
+        .webp({ quality: 80 }) // high quality, but optimized
+        .toFile(filepath);
+
+      imageObj[sizeName] = filepath;
+    }
 
     // Delete original uploaded file
     await fs.unlink(file.path);
 
-    images.push(filepath);
+    // Push the object containing all sizes
+    images.push(imageObj);
   }
+
   return images;
 };
 

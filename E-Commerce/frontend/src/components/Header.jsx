@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import {FaSearch} from "react-icons/fa"
+import { FaSearch } from "react-icons/fa";
 import axios from "axios";
 import "./header.css";
 
@@ -61,7 +61,7 @@ const Header = () => {
     <header className="header">
       <div className="logo">
         <NavLink to="/" end>
-        <img className="logo-img" src="/logo.png" alt="" />
+          <img className="logo-img" src="/logo.png" alt="" />
         </NavLink>
       </div>
 
@@ -73,7 +73,9 @@ const Header = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <button type="submit"><FaSearch size={24} color="gray" /></button>
+        <button type="submit">
+          <FaSearch size={24} color="gray" />
+        </button>
       </form>
 
       <div
@@ -86,55 +88,79 @@ const Header = () => {
       </div>
 
       <nav className={`nav-links ${menuOpen ? "active" : ""}`}>
-        <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>
+        <NavLink
+          to="/"
+          end
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
           Home
         </NavLink>
-        <NavLink to="/products" className={({ isActive }) => (isActive ? "active" : "")}>
+        <NavLink
+          to="/products"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
           Products
         </NavLink>
-        <NavLink to="/cart" className={({ isActive }) => (isActive ? "active" : "")}>
+        <NavLink
+          to="/cart"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
           {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           🛒Cart
         </NavLink>
-        <NavLink to="/checkout" className={({ isActive }) => (isActive ? "active" : "")}>
+        <NavLink
+          to="/checkout"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
           Checkout
         </NavLink>
-        <NavLink to="/login" className={({ isActive }) => (isActive ? "active" : "")}>
+        <NavLink
+          to="/login"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
           Login
         </NavLink>
-        <NavLink to="/register" className={({ isActive }) => (isActive ? "active" : "")}>
+        <NavLink
+          to="/register"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
           Register
         </NavLink>
 
-        <div
-          className={`admin-menu ${adminOpen ? "active" : ""}`}
-          onClick={handleAdminClick}
-        >
-          <span>Admin ▼</span>
-          <div className="dropdown">
-            <NavLink to="/admin" className={({ isActive }) => (isActive ? "active" : "")}>
-              Dashboard
-            </NavLink>
-            <NavLink
-              to="/admin/users"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              Users
-            </NavLink>
-            <NavLink
-              to="/admin/products"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              Products
-            </NavLink>
-            <NavLink
-              to="/admin/orders"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              Orders
-            </NavLink>
+        {user && user.isAdmin && (
+          <div
+            className={`admin-menu ${adminOpen ? "active" : ""}`}
+            onClick={handleAdminClick}
+          >
+            <span>Admin ▼</span>
+            <div className="dropdown">
+              <NavLink
+                to="/admin"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Dashboard
+              </NavLink>
+              <NavLink
+                to="/admin/users"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Users
+              </NavLink>
+              <NavLink
+                to="/admin/products"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Products
+              </NavLink>
+              <NavLink
+                to="/admin/orders"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Orders
+              </NavLink>
+            </div>
           </div>
-        </div>
+        )}
       </nav>
     </header>
   );

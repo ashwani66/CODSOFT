@@ -28,7 +28,7 @@
 }
 
 .login-card input {
-  width: 100%;
+  width: 94%;
   padding: 12px 15px;
   margin-bottom: 20px;
   border: 1px solid #ccc;
@@ -58,4 +58,18 @@
 .login-card button:hover {
   background-color: #d26de0;
   transform: scale(1.02);
+}
+
+@media (max-width:900px) {
+  .login-card input{
+      width: 90%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+
+  }
+  
 }

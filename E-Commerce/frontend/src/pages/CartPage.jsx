@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./cartPage.css";
+import { NavLink } from "react-router-dom";
 
 const API = import.meta.env.VITE_API_BASE_URL;
 
@@ -152,9 +153,9 @@ const CartPage = () => {
     <span>₹{totalPrice}</span>
   </div>
 
-  <button className="checkout-btn">Proceed to Buy</button>
-</div>
 
+ <NavLink to={"/checkout"}><button className="checkout-btn"> Proceed to Buy </button></NavLink>
+</div>
         </div>
       )}
     </div>
