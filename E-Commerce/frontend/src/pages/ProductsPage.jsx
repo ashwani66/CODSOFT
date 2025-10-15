@@ -91,7 +91,7 @@ const ProductsPage = () => {
     }
   };
 
-  const categories = ["All", "Men", "Women", "Kids", "Accessories"];
+  const categories = ["All","Shirts","Shoes","Pants","Accessories","Electronics","Bags","Hats","Jackets","Watches"];
 
   return (
     <div className="products-page">

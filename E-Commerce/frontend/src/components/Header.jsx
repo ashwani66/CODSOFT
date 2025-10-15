@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { FaSearch } from "react-icons/fa";
@@ -14,9 +14,10 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
-  const [searchQuery, setSearchQuery] = useState(""); // <-- search state
+  const [searchQuery, setSearchQuery] = useState("");
 
   const token = localStorage.getItem("token");
+  const menuRef = useRef(null); // 👈 Reference for outside click
 
   // ---------- Fetch cart count ----------
   const fetchCartCount = async () => {
@@ -52,15 +53,35 @@ const Header = () => {
     e.preventDefault();
     if (searchQuery.trim() !== "") {
       navigate(`/products?search=${encodeURIComponent(searchQuery)}`);
-      setSearchQuery(""); // clear input after search
-      setMenuOpen(false); // close mobile menu
+      setSearchQuery("");
+      setMenuOpen(false);
     }
   };
 
+  // ---------- Close menu when clicking outside ----------
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+        setAdminOpen(false);
+      }
+    };
+
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpen]);
+
   return (
-    <header className="header">
+    <header className="header" ref={menuRef}>
       <div className="logo">
-        <NavLink to="/" end>
+        <NavLink to="/" end onClick={() => setMenuOpen(false)}>
           <img className="logo-img" src="/logo.png" alt="" />
         </NavLink>
       </div>
@@ -78,6 +99,7 @@ const Header = () => {
         </button>
       </form>
 
+      {/* Hamburger */}
       <div
         className={`hamburger ${menuOpen ? "open" : ""}`}
         onClick={() => setMenuOpen(!menuOpen)}
@@ -87,43 +109,25 @@ const Header = () => {
         <span></span>
       </div>
 
+      {/* Navigation */}
       <nav className={`nav-links ${menuOpen ? "active" : ""}`}>
-        <NavLink
-          to="/"
-          end
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
+        <NavLink to="/" end onClick={() => setMenuOpen(false)}>
           Home
         </NavLink>
-        <NavLink
-          to="/products"
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
+        <NavLink to="/products" onClick={() => setMenuOpen(false)}>
           Products
         </NavLink>
-        <NavLink
-          to="/cart"
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
+        <NavLink to="/cart" onClick={() => setMenuOpen(false)}>
           {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           🛒Cart
         </NavLink>
-        <NavLink
-          to="/checkout"
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
+        <NavLink to="/checkout" onClick={() => setMenuOpen(false)}>
           Checkout
         </NavLink>
-        <NavLink
-          to="/login"
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
+        <NavLink to="/login" onClick={() => setMenuOpen(false)}>
           Login
         </NavLink>
-        <NavLink
-          to="/register"
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
+        <NavLink to="/register" onClick={() => setMenuOpen(false)}>
           Register
         </NavLink>
 
@@ -133,31 +137,11 @@ const Header = () => {
             onClick={handleAdminClick}
           >
             <span>Admin ▼</span>
-            <div className="dropdown">
-              <NavLink
-                to="/admin"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Dashboard
-              </NavLink>
-              <NavLink
-                to="/admin/users"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Users
-              </NavLink>
-              <NavLink
-                to="/admin/products"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Products
-              </NavLink>
-              <NavLink
-                to="/admin/orders"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Orders
-              </NavLink>
+            <div className="dropdown" onClick={() => setMenuOpen(false)}>
+              <NavLink to="/admin">Dashboard</NavLink>
+              <NavLink to="/admin/users">Users</NavLink>
+              <NavLink to="/admin/products">Products</NavLink>
+              <NavLink to="/admin/orders">Orders</NavLink>
             </div>
           </div>
         )}
