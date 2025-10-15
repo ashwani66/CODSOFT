@@ -71,7 +71,10 @@ const AdminProductForm = () => {
     formData.append("sizes", JSON.stringify(sizes));
     formData.append("reviews", JSON.stringify(reviews));
 
-    images.forEach(img => img && formData.append("images", img));
+    // Append files
+    images.forEach((img, idx) => {
+      if (img) formData.append("images", img); // send files as 'images'
+    });
 
     const token = localStorage.getItem("token");
 
@@ -118,40 +121,28 @@ const AdminProductForm = () => {
 
       <div className="sizes-container">
         <label>
-          <input
-            type="checkbox"
-            checked={sizes.length === allSizes.length}
-            onChange={handleSelectAll}
-          /> Select All
+          <input type="checkbox" checked={sizes.length === allSizes.length} onChange={handleSelectAll} /> Select All
         </label>
         {allSizes.map(size => (
           <label key={size}>
-            <input
-              type="checkbox"
-              value={size}
-              checked={sizes.includes(size)}
-              onChange={handleSizeChange}
-            /> {size}
+            <input type="checkbox" value={size} checked={sizes.includes(size)} onChange={handleSizeChange} /> {size}
           </label>
         ))}
       </div>
 
-    <div className="images-container">
-  {images.map((_, idx) => (
-    <div key={idx} className="image-box">
-      <input type="file" onChange={e => handleImageChange(e, idx)} />
-      {previews[idx] && (
-        <div className="image-wrapper">
-          <img src={previews[idx]} alt={`preview ${idx+1}`} />
-          <span className="image-overlay">Change</span>
-        </div>
-      )}
-    </div>
-  ))}
-</div>
-
-
-
+      <div className="images-container">
+        {images.map((_, idx) => (
+          <div key={idx} className="image-box">
+            <input type="file" onChange={e => handleImageChange(e, idx)} />
+            {previews[idx] && (
+              <div className="image-wrapper">
+                <img src={previews[idx]} alt={`preview ${idx+1}`} />
+                <span className="image-overlay">Change</span>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
 
       <div className="reviews-container">
         <h4>Add Reviews (Optional)</h4>
