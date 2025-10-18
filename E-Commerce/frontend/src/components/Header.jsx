@@ -1,14 +1,14 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaSignOutAlt } from "react-icons/fa";
 import axios from "axios";
 import "./header.css";
 
 const API = import.meta.env.VITE_API_BASE_URL;
 
 const Header = () => {
-  const { user, logout } = useContext(AuthContext); // 👈 Added logout from context
+  const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -58,7 +58,7 @@ const Header = () => {
   // ---------- Handle Logout ----------
   const handleLogout = () => {
     localStorage.removeItem("token");
-    if (logout) logout(); // If AuthContext has a logout method
+    if (logout) logout();
     navigate("/login");
     setMenuOpen(false);
   };
@@ -130,7 +130,7 @@ const Header = () => {
           Checkout
         </NavLink>
 
-        {/* Show login/register when no user */}
+        {/* Not logged in */}
         {!user && (
           <>
             <NavLink to="/login" onClick={() => setMenuOpen(false)}>
@@ -139,30 +139,34 @@ const Header = () => {
             <NavLink to="/register" onClick={() => setMenuOpen(false)}>
               Register
             </NavLink>
+            
           </>
         )}
-
-        {/* Show admin menu only for admins */}
-        {user && user.isAdmin && (
-          <div
-            className={`admin-menu ${adminOpen ? "active" : ""}`}
-            onClick={handleAdminClick}
-          >
-            <span>Admin ▼</span>
-            <div className="dropdown" onClick={() => setMenuOpen(false)}>
-              <NavLink to="/admin">Dashboard</NavLink>
-              <NavLink to="/admin/users">Users</NavLink>
-              <NavLink to="/admin/products">Products</NavLink>
-              <NavLink to="/admin/orders">Orders</NavLink>
-            </div>
-          </div>
-        )}
-
-        {/* Logout visible for logged-in users */}
-        {user && (
-          <button className="logout-btn" onClick={handleLogout}>
-            Logout
+<NavLink to="/login" >
+          
+          <button className="logout-bttn" onClick={handleLogout}>
+            <FaSignOutAlt size={16} /> Logout
           </button>
+        
+            </NavLink>
+  
+        {/* Admin menu */}
+        {user && user.isAdmin && (
+          <>
+            <div
+              className={`admin-menu ${adminOpen ? "active" : ""}`}
+              onClick={handleAdminClick}
+            >
+              <span>Admin ▼</span>
+              <div className="dropdown" onClick={() => setMenuOpen(false)}>
+                <NavLink to="/admin">Dashboard</NavLink>
+                <NavLink to="/admin/users">Users</NavLink>
+                <NavLink to="/admin/products">Products</NavLink>
+                <NavLink to="/admin/orders">Orders</NavLink>
+              </div>
+            </div>
+
+          </>
         )}
       </nav>
     </header>
