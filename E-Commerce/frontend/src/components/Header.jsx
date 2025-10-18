@@ -8,7 +8,7 @@ import "./header.css";
 const API = import.meta.env.VITE_API_BASE_URL;
 
 const Header = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext); // 👈 Added logout from context
   const navigate = useNavigate();
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -17,7 +17,7 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const token = localStorage.getItem("token");
-  const menuRef = useRef(null); // 👈 Reference for outside click
+  const menuRef = useRef(null); // Reference for outside click
 
   // ---------- Fetch cart count ----------
   const fetchCartCount = async () => {
@@ -39,15 +39,6 @@ const Header = () => {
     fetchCartCount();
   }, [token]);
 
-  const handleAdminClick = (e) => {
-    e.stopPropagation();
-    if (user && user.isAdmin) {
-      setAdminOpen(!adminOpen);
-    } else {
-      navigate("/register");
-    }
-  };
-
   // ---------- Handle Search ----------
   const handleSearch = (e) => {
     e.preventDefault();
@@ -56,6 +47,20 @@ const Header = () => {
       setSearchQuery("");
       setMenuOpen(false);
     }
+  };
+
+  // ---------- Handle Admin Dropdown ----------
+  const handleAdminClick = (e) => {
+    e.stopPropagation();
+    setAdminOpen(!adminOpen);
+  };
+
+  // ---------- Handle Logout ----------
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    if (logout) logout(); // If AuthContext has a logout method
+    navigate("/login");
+    setMenuOpen(false);
   };
 
   // ---------- Close menu when clicking outside ----------
@@ -82,7 +87,7 @@ const Header = () => {
     <header className="header" ref={menuRef}>
       <div className="logo">
         <NavLink to="/" end onClick={() => setMenuOpen(false)}>
-          <img className="logo-img" src="/logo.png" alt="" />
+          <img className="logo-img" src="/logo.png" alt="Logo" />
         </NavLink>
       </div>
 
@@ -124,13 +129,20 @@ const Header = () => {
         <NavLink to="/checkout" onClick={() => setMenuOpen(false)}>
           Checkout
         </NavLink>
-        <NavLink to="/login" onClick={() => setMenuOpen(false)}>
-          Login
-        </NavLink>
-        <NavLink to="/register" onClick={() => setMenuOpen(false)}>
-          Register
-        </NavLink>
 
+        {/* Show login/register when no user */}
+        {!user && (
+          <>
+            <NavLink to="/login" onClick={() => setMenuOpen(false)}>
+              Login
+            </NavLink>
+            <NavLink to="/register" onClick={() => setMenuOpen(false)}>
+              Register
+            </NavLink>
+          </>
+        )}
+
+        {/* Show admin menu only for admins */}
         {user && user.isAdmin && (
           <div
             className={`admin-menu ${adminOpen ? "active" : ""}`}
@@ -144,6 +156,13 @@ const Header = () => {
               <NavLink to="/admin/orders">Orders</NavLink>
             </div>
           </div>
+        )}
+
+        {/* Logout visible for logged-in users */}
+        {user && (
+          <button className="logout-btn" onClick={handleLogout}>
+            Logout
+          </button>
         )}
       </nav>
     </header>
