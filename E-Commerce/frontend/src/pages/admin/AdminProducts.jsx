@@ -10,7 +10,7 @@ const AdminProducts = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [deletingId, setDeletingId] = useState(null); // track product being deleted
+  const [deletingId, setDeletingId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const AdminProducts = () => {
     setSuccess("");
     try {
       const res = await fetchProductsAPI();
-      setProducts(res); // adjust to res.data if API returns {data: [...]}
+      setProducts(res);
     } catch (err) {
       console.error(err);
       setError(err.message || "Failed to load products");
@@ -79,7 +79,11 @@ const AdminProducts = () => {
                   <td>
                     {p.images && p.images.length > 0 ? (
                       <img
-                        src={`${API}/${p.images[0]}`}
+                        src={
+                          p.images[0]?.small
+                            ? `${API}/${p.images[0].small}`
+                            : `${API}/${p.images[0].large}`
+                        }
                         alt={p.name}
                         className="product-thumbnail"
                       />
@@ -91,16 +95,13 @@ const AdminProducts = () => {
                   <td>{p.name}</td>
                   <td>{p.price}</td>
                   <td>
-                    <button
-                      className="btn edit-btn"
-                      onClick={() => handleEdit(p._id)}
-                    >
+                    <button className="btn edit-btn" onClick={() => handleEdit(p._id)}>
                       Edit
                     </button>
                     <button
                       className="btn delete-btn"
                       onClick={() => handleDelete(p._id)}
-                      disabled={deletingId === p._id} // disable while deleting
+                      disabled={deletingId === p._id}
                     >
                       {deletingId === p._id ? "Deleting..." : "Delete"}
                     </button>

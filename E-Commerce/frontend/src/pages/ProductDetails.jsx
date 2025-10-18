@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react"; // <-- added useRef
+import React, { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import "./productDetails.css";
 import { fetchProducts, fetchReviews, addReview } from "../api/products";
@@ -16,7 +16,7 @@ const ProductDetails = () => {
   const [newReview, setNewReview] = useState({ rating: 5, comment: "" });
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const dropdownRef = useRef(null); // <-- ref for custom dropdown
+  const dropdownRef = useRef(null);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -39,7 +39,12 @@ const ProductDetails = () => {
         const currentProduct = products.find((p) => p._id === id);
         if (currentProduct) {
           setProduct(currentProduct);
-          setMainImage(`${API}/${currentProduct.images[0]}`);
+          // Use medium image for main display, fallback to small
+          setMainImage(
+            `${API}/${
+              currentProduct.images[0]?.medium || currentProduct.images[0]?.small
+            }`
+          );
         }
       } catch (err) {
         console.error("Error fetching product:", err);
@@ -77,8 +82,7 @@ const ProductDetails = () => {
   // ---------- Handle review submit ----------
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
-
-    if (!product || !product._id) return;
+    if (!product?._id) return;
 
     const reviewData = {
       product: product._id,
@@ -99,9 +103,35 @@ const ProductDetails = () => {
   };
 
   // ---------- Handle add to cart ----------
-  const handleAddToCart = () => {
-    alert(`${product.name} added to cart!`);
-  };
+ const handleAddToCart = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/cart`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token ? `Bearer ${token}` : "",
+      },
+      body: JSON.stringify({
+        productId: product._id,
+        quantity: 1,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert(`🛒 ${product.name} added to cart!`);
+    } else {
+      alert(`❌ Failed to add to cart: ${data.message || "Unknown error"}`);
+    }
+  } catch (error) {
+    console.error("Add to Cart Error:", error);
+    alert("⚠️ Server error while adding to cart");
+  }
+};
+
 
   if (!product) return <p>Loading product...</p>;
 
@@ -113,12 +143,14 @@ const ProductDetails = () => {
           <img src={mainImage} alt="Main" className="main-image" />
         </div>
         <div className="thumbnail-gallery">
-          {product.images.map((img, i) => (
+          {product.images.map((imgObj, i) => (
             <img
               key={i}
-              src={`${API}/${img}`}
+              src={`${API}/${imgObj.small}`} // thumbnail uses small
               alt={`thumb-${i}`}
-              onClick={() => setMainImage(`${API}/${img}`)}
+              onClick={() =>
+                setMainImage(`${API}/${imgObj.medium || imgObj.small}`) // medium or fallback
+              }
             />
           ))}
         </div>
@@ -140,8 +172,9 @@ const ProductDetails = () => {
           <button
             className="rate-btn"
             onClick={() => {
-              const reviewForm = document.getElementById("review-form");
-              reviewForm?.scrollIntoView({ behavior: "smooth" });
+              document
+                .getElementById("review-form")
+                ?.scrollIntoView({ behavior: "smooth" });
             }}
           >
             ⭐ Rate this Product
@@ -159,7 +192,7 @@ const ProductDetails = () => {
           >
             <label>Rating:</label>
 
-            {/* ---------- Custom Dropdown ---------- */}
+            {/* Custom Dropdown */}
             <div
               className="custom-dropdown"
               ref={dropdownRef}
@@ -167,7 +200,9 @@ const ProductDetails = () => {
             >
               <div className="selected-option">
                 {newReview.rating} ⭐
-                <span className="arrow-dropdown">{dropdownOpen ? "▲" : "▼"}</span>
+                <span className="arrow-dropdown">
+                  {dropdownOpen ? "▲" : "▼"}
+                </span>
               </div>
 
               {dropdownOpen && (
@@ -226,24 +261,23 @@ const ProductDetails = () => {
               .filter((item) => item._id !== product._id)
               .map((item) => (
                 <Link
-  key={item._id}
-  to={`/products/${item._id}`}
-  target="_blank"                // 👈 open in new tab
-  rel="noopener noreferrer"      // 👈 security best practice
-  className="related-card"
->
-  <img
-    src={
-      item.images && item.images.length > 0
-        ? `${API}/${item.images[0]}`
-        : ""
-    }
-    alt={item.name}
-  />
-  <h4>{item.name}</h4>
-  <p>₹{item.price}</p>
-</Link>
-
+                  key={item._id}
+                  to={`/products/${item._id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="related-card"
+                >
+                  <img
+                    src={
+                      item.images?.[0]?.small
+                        ? `${API}/${item.images[0].small}`
+                        : "/images/no-image.png"
+                    }
+                    alt={item.name}
+                  />
+                  <h4>{item.name}</h4>
+                  <p>₹{item.price}</p>
+                </Link>
               ))}
           </div>
         </div>

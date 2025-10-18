@@ -5,27 +5,32 @@ import "./productCard.css";
 
 const API = import.meta.env.VITE_API_BASE_URL;
 
-const ProductCard = ({ product, onAddToCart }) => {
+const ProductCard = ({ product, onAddToCart, imageSize = "small" }) => {
   const discount = product.oldPrice
     ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
     : 0;
 
   const avgRating = product.averageRating ? Math.round(product.averageRating) : 0;
 
+  // ✅ Handle image URL safely and dynamically
+  let imageUrl = product.images?.[0]?.[imageSize];
+
+  if (imageUrl) {
+    // If image URL doesn't start with http or https → prepend backend URL
+    if (!/^https?:\/\//i.test(imageUrl)) {
+      imageUrl = `${API}/${imageUrl}`;
+    }
+  } else {
+    // Default placeholder
+    imageUrl = "https://via.placeholder.com/250";
+  }
+
   return (
     <div className="product-card">
       {discount > 0 && <span className="discount-badge">{discount}% OFF</span>}
 
       <Link to={`/products/${product._id}`} className="image-link">
-        <img
-          src={
-            product.images && product.images.length > 0
-              ? `${API}/${product.images[0]}`
-              : "https://via.placeholder.com/250"
-          }
-          alt={product.name}
-          className="product-image"
-        />
+        <img src={imageUrl} alt={product.name} className="product-image" />
       </Link>
 
       <div className="product-info">
@@ -36,12 +41,12 @@ const ProductCard = ({ product, onAddToCart }) => {
             <Star
               key={i}
               size={14}
-              className={
-                i < avgRating ? "star-filled" : "star-empty"
-              }
+              className={i < avgRating ? "star-filled" : "star-empty"}
             />
           ))}
-          <span className="rating-value">({product.averageRating?.toFixed(1) || "0"})</span>
+          <span className="rating-value">
+            ({product.averageRating?.toFixed(1) || "0"})
+          </span>
         </div>
 
         <div className="price-section">
@@ -49,10 +54,7 @@ const ProductCard = ({ product, onAddToCart }) => {
           <span className="current-price">₹{product.price}</span>
         </div>
 
-        <button
-          onClick={() => onAddToCart(product._id)}
-          className="add-to-cart-btn"
-        >
+        <button onClick={() => onAddToCart(product._id)} className="add-to-cart-btn">
           🛒 ADD TO CART
         </button>
       </div>

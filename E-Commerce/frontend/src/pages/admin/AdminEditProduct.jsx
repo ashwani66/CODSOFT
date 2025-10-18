@@ -1,155 +1,122 @@
-import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchProducts, updateProduct } from "../../api/products";
+import { useEffect, useState } from "react";
 import "./adminEditProduct.css";
-
+import { fetchProductById, updateProduct } from "../../api/products.js";
 
 const API = import.meta.env.VITE_API_BASE_URL;
 
-const AdminEditProduct = () => {
+export const AdminEditProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-
-  const [oldImages, setOldImages] = useState([null, null, null, null]);
-  const [newImages, setNewImages] = useState([null, null, null, null]);
-  const [previewNewImages, setPreviewNewImages] = useState([null, null, null, null]);
-
-  const fileInputRefs = [useRef(), useRef(), useRef(), useRef()];
 
   useEffect(() => {
-    const fetchProductById = async () => {
+    const loadProduct = async () => {
       try {
-        const res = await fetchProducts();
-        const p = res.find((prod) => prod._id === id);
-        if (!p) throw new Error("Product not found");
-
-        setProduct(p);
-        setName(p.name);
-        setPrice(p.price);
-        setDescription(p.description);
-        setCategory(p.category);
-
-        const filledOld = p.images.slice(0, 4).concat(Array(4 - p.images.length).fill(null));
-        setOldImages(filledOld);
-
-        setLoading(false);
+        const data = await fetchProductById(id);
+        setProduct(data);
       } catch (err) {
-        setError(err.message);
+        console.error(err);
+      } finally {
         setLoading(false);
       }
     };
-
-    fetchProductById();
-
-    // Cleanup preview URLs to prevent memory leaks
-    return () => {
-      previewNewImages.forEach((url) => url && URL.revokeObjectURL(url));
-    };
+    loadProduct();
   }, [id]);
 
-  const handleImageBoxClick = (index) => {
-    fileInputRefs[index].current?.click();
-  };
-
-  const handleImageChange = (e, index) => {
+  // Handle image selection
+  const handleImageChange = (e, idx) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const updatedNew = [...newImages];
-    updatedNew[index] = file;
-    setNewImages(updatedNew);
+    const updatedImages = [...product.images];
+    updatedImages[idx] = {
+      ...updatedImages[idx],
+      file, // store file for upload
+      preview: URL.createObjectURL(file) // preview new image
+    };
 
-    const updatedPreviews = [...previewNewImages];
-    // Revoke old preview URL if exists
-    if (updatedPreviews[index]) URL.revokeObjectURL(updatedPreviews[index]);
-    updatedPreviews[index] = URL.createObjectURL(file);
-    setPreviewNewImages(updatedPreviews);
+    setProduct({ ...product, images: updatedImages });
   };
 
-  const handleUpdate = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-
     try {
       const formData = new FormData();
-      formData.append("name", name);
-      formData.append("price", price);
-      formData.append("description", description);
-      formData.append("category", category);
+      formData.append("name", product.name);
+      formData.append("price", product.price);
+      formData.append("category", product.category);
+      formData.append("description", product.description);
 
-      newImages.forEach((img) => img && formData.append("images", img));
+      // Append images: use file if selected, else keep original URL
+      product.images.forEach((img) => {
+        if (img.file) formData.append("images", img.file);
+      });
 
       await updateProduct(id, formData);
+      alert("Product updated successfully!");
       navigate("/admin/products");
     } catch (err) {
-      setError("Failed to update product");
       console.error(err);
+      alert("Failed to update product");
     }
   };
 
   if (loading) return <p>Loading product...</p>;
-  if (error) return <p className="error">{error}</p>;
+  if (!product) return <p>Product not found</p>;
 
   return (
-    <div className="admin-container">
-      <form onSubmit={handleUpdate} className="admin-product-form">
-        <h4>Edit Product</h4>
-
+    <div className="admin-edit-product admin-product-form">
+      <h2>Edit Product</h2>
+      <form onSubmit={handleSubmit}>
         <label>Name:</label>
-        <input value={name} onChange={(e) => setName(e.target.value)} />
+        <input
+          type="text"
+          value={product.name}
+          onChange={(e) => setProduct({ ...product, name: e.target.value })}
+        />
 
         <label>Price:</label>
-        <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
-
-        <label>Description:</label>
-        <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+        <input
+          type="number"
+          value={product.price}
+          onChange={(e) => setProduct({ ...product, price: e.target.value })}
+        />
 
         <label>Category:</label>
-        <input value={category} onChange={(e) => setCategory(e.target.value)} />
+        <input
+          type="text"
+          value={product.category}
+          onChange={(e) => setProduct({ ...product, category: e.target.value })}
+        />
 
-        <label>Old Images</label>
-        <div className="images-container">
-          {oldImages.map((img, idx) =>
-            img ? (
-              <div className="image-box" key={idx}>
-                <img src={img.startsWith("http") ? img : `${API}/${img}`} alt={`Old ${idx}`} />
-              </div>
-            ) : (
-              <div className="image-box placeholder" key={idx}>
-                No Image
-              </div>
-            )
-          )}
-        </div>
+        <label>Description:</label>
+        <textarea
+          value={product.description}
+          onChange={(e) => setProduct({ ...product, description: e.target.value })}
+        />
 
-        <label>Update Images</label>
-        <div className="images-container">
-          {previewNewImages.map((img, idx) => (
-            <div className="image-box" key={idx} onClick={() => handleImageBoxClick(idx)}>
+        {/* Images preview & update */}
+        <div className="images-preview images-container">
+          {product.images?.map((img, idx) => (
+            <div className="image-box" key={idx}>
               <div className="image-wrapper">
-                {img ? <img src={img} alt={`New Preview ${idx}`} /> : <div className="placeholder">Click to upload</div>}
-                <input
-                  ref={fileInputRefs[idx]}
-                  type="file"
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  onChange={(e) => handleImageChange(e, idx)}
+                <img
+                  src={img.preview || (img.small ? `${API}/${img.small}` : `${API}/${img.large}`)}
+                  alt={`img-${idx}`}
                 />
               </div>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageChange(e, idx)}
+              />
             </div>
           ))}
         </div>
 
-        <button type="submit">Update Product</button>
+        <button type="submit">Save Changes</button>
       </form>
     </div>
   );

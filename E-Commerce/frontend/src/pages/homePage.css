@@ -92,6 +92,7 @@ body {
 .products-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  background: #000;
   gap: clamp(15px, 3vw, 35px);
   padding: clamp(10px, 2vw, 20px);
 }
@@ -219,13 +220,17 @@ body {
 }
 
 /* ---------- Loading Text ---------- */
+
 .loading-text {
-  text-align: center;
-  margin-top: 20px;
-  font-size: clamp(1rem, 2vw, 1.4rem);
-  color: #e880ff;
-  font-weight: bold;
-  animation: pulse 1s infinite;
+    text-align: center;
+    margin-top: 20px;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    color: #e880ff;
+    font-weight: bold;
+    margin-left: revert-layer;
+    margin: 10px 10px 10px 45vw;
+    animation: pulse 1s infinite;
+    width: 100%;
 }
 
 @keyframes pulse {

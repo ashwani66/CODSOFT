@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import ProductCard from "../components/ProductCard";
 import "./homePage.css";
 
 const API = import.meta.env.VITE_API_BASE_URL;
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
-  const [current, setCurrent] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  const images = [
+  const banners = [
     "/images-banner/1.png",
     "/images-banner/2.png",
     "/images-banner/3.png",
@@ -16,56 +17,6 @@ const HomePage = () => {
     "/images-banner/5.png",
   ];
 
-  // Fetch products from API
-  useEffect(() => {
-    fetch(`${API}/api/products`)
-      .then((res) => res.json())
-      .then((data) => setProducts(data))
-      .catch((err) => console.error(err));
-  }, []);
-
-  // Carousel auto-slide
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % images.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [images.length]);
-
-  const nextSlide = () => setCurrent((prev) => (prev + 1) % images.length);
-  const prevSlide = () =>
-    setCurrent((prev) => (prev - 1 + images.length) % images.length);
-
-  const handleAddToCart = async (productId) => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${API}/api/cart`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token ? `Bearer ${token}` : "",
-        },
-        body: JSON.stringify({ productId, quantity: 1 }),
-      });
-
-      if (res.ok) alert("✅ Product added to cart!");
-      else {
-        const err = await res.json();
-        alert("❌ Error adding to cart: " + err.message);
-      }
-    } catch (error) {
-      console.error(error);
-      alert("⚠️ Server error while adding to cart");
-    }
-  };
-
-  // Filter products by category
-  const getCategoryProducts = (category) =>
-    products.filter(
-      (p) => p.category?.toLowerCase() === category.toLowerCase()
-    );
-
-  // All category sections with banners
   const categories = [
     { name: "Accessories", banner: "/images-banner/accessories.png" },
     { name: "Shirts", banner: "/images-banner/shirts.png" },
@@ -78,47 +29,122 @@ const HomePage = () => {
     { name: "Watches", banner: "/images-banner/watches.png" },
   ];
 
+  // Fetch products from the API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch(`${API}/api/products`);
+        const data = await res.json();
+        setProducts(data);
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  // Carousel auto-slide every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % banners.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [banners.length]);
+
+  const nextSlide = () =>
+    setCurrentSlide((prev) => (prev + 1) % banners.length);
+
+  const prevSlide = () =>
+    setCurrentSlide((prev) => (prev - 1 + banners.length) % banners.length);
+
+  // Handle Add to Cart
+  const handleAddToCart = async (productId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API}/api/cart`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : "",
+        },
+        body: JSON.stringify({ productId, quantity: 1 }),
+      });
+
+      const response = await res.json();
+
+      if (res.ok) {
+        alert("Product added to cart!");
+      } else {
+        alert(`Error adding to cart: ${response.message}`);
+      }
+    } catch (error) {
+      console.error("Add to cart error:", error);
+      alert("Server error while adding to cart.");
+    }
+  };
+
+  // Filter products by category
+  const getCategoryProducts = (category) =>
+    products.filter(
+      (p) => p.category?.toLowerCase() === category.toLowerCase()
+    );
+
   return (
     <div className="homepage">
-      {/* ---------- Carousel ---------- */}
-      <div className="carousel">
-        <button className="arrow left" onClick={prevSlide}>❮</button>
+      {/* -------- Carousel -------- */}
+      <section className="carousel">
+        <button className="arrow left" onClick={prevSlide}>
+          ❮
+        </button>
+
         <div
           className="carousel-inner"
-          style={{ transform: `translateX(-${current * 100}%)` }}
+          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
         >
-          {images.map((img, idx) => (
-            <img key={idx} src={img} alt={`slide-${idx}`} className="carousel-img" />
+          {banners.map((img, idx) => (
+            <img
+              key={idx}
+              src={img}
+              alt={`slide-${idx}`}
+              className="carousel-img"
+              loading="lazy"
+            />
           ))}
         </div>
-        <button className="arrow right" onClick={nextSlide}>❯</button>
+
+        <button className="arrow right" onClick={nextSlide}>
+          ❯
+        </button>
+
         <div className="dots">
-          {images.map((_, idx) => (
+          {banners.map((_, idx) => (
             <span
               key={idx}
-              className={idx === current ? "dot active" : "dot"}
-              onClick={() => setCurrent(idx)}
+              className={idx === currentSlide ? "dot active" : "dot"}
+              onClick={() => setCurrentSlide(idx)}
             ></span>
           ))}
         </div>
-      </div>
+      </section>
 
-      {/* ---------- Category Sections ---------- */}
+      {/* -------- Category Sections -------- */}
       {categories.map((cat) => {
-        const catProducts = getCategoryProducts(cat.name).slice(0, 6); // ✅ 6 per row
+        const categoryProducts = getCategoryProducts(cat.name).slice(0, 6);
+
         return (
           <section key={cat.name} className="category-section">
-            
-            {/* ✅ Category Banner at Top */}
             <div className="category-banner">
               <Link to={`/products?category=${cat.name.toLowerCase()}`}>
-                <img src={cat.banner} alt={`${cat.name} banner`} />
+                <img
+                  src={cat.banner}
+                  alt={`${cat.name} banner`}
+                  loading="lazy"
+                />
               </Link>
             </div>
 
-            {/* Category Header */}
             <div className="category-header">
-            
+              <h2>{cat.name}</h2>
               <Link
                 to={`/products?category=${cat.name.toLowerCase()}`}
                 className="view-all"
@@ -127,46 +153,15 @@ const HomePage = () => {
               </Link>
             </div>
 
-            {/* Products Grid */}
             <div className="products-grid">
-              {catProducts.length > 0 ? (
-                catProducts.map((product) => (
-                  <div key={product._id} className="product-card">
-                    <Link to={`/products/${product._id}`} className="product-link">
-                      <img
-                        src={
-                          product.images?.[0]
-                            ? `${API}/${product.images[0]}`
-                            : "/images/no-image.png"
-                        }
-                        alt={product.name}
-                        className="product-img"
-                      />
-                      <h3 className="product-name">{product.name}</h3>
-                      <p className="product-price">₹{product.price}</p>
-                      <p className="product-rating">
-                        {(() => {
-                          const rating = product.rating || 0;
-                          const fullStars = Math.floor(rating);
-                          const halfStar = rating - fullStars >= 0.5;
-                          const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-                          return (
-                            <>
-                              {"★".repeat(fullStars)}
-                              {halfStar ? "½" : ""}
-                              {"☆".repeat(emptyStars)}
-                            </>
-                          );
-                        })()}
-                      </p>
-                    </Link>
-                    <button
-                      className="add-to-cart-btn"
-                      onClick={() => handleAddToCart(product._id)}
-                    >
-                      Add to Cart
-                    </button>
-                  </div>
+              {categoryProducts.length > 0 ? (
+                categoryProducts.map((product) => (
+                  <ProductCard
+                    key={product._id}
+                    product={product}
+                    onAddToCart={handleAddToCart}
+                    imageSize="small"
+                  />
                 ))
               ) : (
                 <p className="loading-text">No products found in {cat.name}</p>

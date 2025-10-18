@@ -4,12 +4,11 @@ import { fetchProducts } from "../api/products";
 import ProductCard from "../components/ProductCard";
 import "./productsPage.css";
 
-const API = import.meta.env.VITE_API_BASE_URL;
-
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
+    const API = import.meta.env.VITE_API_BASE_URL;
 
   const location = useLocation();
 
@@ -18,25 +17,26 @@ const ProductsPage = () => {
     return new URLSearchParams(location.search).get("search") || "";
   };
 
+  // Fetch products on mount
   useEffect(() => {
     fetchProducts()
       .then((data) => {
-        // Sort products by newest first (assuming createdAt exists)
+        // Sort newest first
         const sorted = [...data].sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         setProducts(sorted);
-        setFilteredProducts(sorted); // default
+        setFilteredProducts(sorted);
       })
       .catch((err) => console.error(err));
   }, []);
 
+  // Filter products based on category & search query
   useEffect(() => {
     const query = getSearchQuery().toLowerCase();
-
     let filtered = [...products];
 
-    // Apply category filter
+    // Category filter
     if (selectedCategory !== "All") {
       filtered = filtered.filter(
         (p) =>
@@ -45,18 +45,13 @@ const ProductsPage = () => {
       );
     }
 
+    // Search filter
     if (query) {
-      // If search query present -> filter
       filtered = filtered.filter(
         (p) =>
           p.name.toLowerCase().includes(query) ||
           (p.description && p.description.toLowerCase().includes(query)) ||
           (p.category && p.category.toLowerCase().includes(query))
-      );
-    } else {
-      // If no search -> show newest first
-      filtered.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
     }
 
@@ -70,7 +65,7 @@ const ProductsPage = () => {
   const handleAddToCart = async (productId) => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${API}/api/cart`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/cart`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -91,7 +86,18 @@ const ProductsPage = () => {
     }
   };
 
-  const categories = ["All","Shirts","Shoes","Pants","Accessories","Electronics","Bags","Hats","Jackets","Watches"];
+  const categories = [
+    "All",
+    "Shirts",
+    "Shoes",
+    "Pants",
+    "Accessories",
+    "Electronics",
+    "Bags",
+    "Hats",
+    "Jackets",
+    "Watches",
+  ];
 
   return (
     <div className="products-page">
@@ -122,6 +128,7 @@ const ProductsPage = () => {
               key={p._id}
               product={p}
               onAddToCart={handleAddToCart}
+              imageSize="small" // use small image for grid
             />
           ))
         )}
