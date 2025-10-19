@@ -2,17 +2,18 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { fetchProducts } from "../api/products";
 import ProductCard from "../components/ProductCard";
+import ScrollToTop from "../components/ScrollToTop";
 import "./productsPage.css";
 
 const ProductsPage = () => {
   const location = useLocation();
 
-  // Function to get category query from URL
+  // Get category from URL query
   const getCategoryQuery = () => {
     return new URLSearchParams(location.search).get("category") || "All";
   };
 
-  // Function to get search query from URL
+  // Get search query from URL
   const getSearchQuery = () => {
     return new URLSearchParams(location.search).get("search") || "";
   };
@@ -38,7 +39,6 @@ const ProductsPage = () => {
   useEffect(() => {
     fetchProducts()
       .then((data) => {
-        // Sort newest first
         const sorted = [...data].sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
@@ -55,12 +55,11 @@ const ProductsPage = () => {
     }
   }, [location.search]);
 
-  // Filter products based on selectedCategory & search query
+  // Filter products based on category & search query
   useEffect(() => {
     const query = getSearchQuery().toLowerCase();
     let filtered = [...products];
 
-    // Category filter
     if (selectedCategory !== "All") {
       filtered = filtered.filter(
         (p) =>
@@ -69,7 +68,6 @@ const ProductsPage = () => {
       );
     }
 
-    // Search filter
     if (query) {
       filtered = filtered.filter(
         (p) =>
@@ -114,6 +112,9 @@ const ProductsPage = () => {
 
   return (
     <div className="products-page">
+      {/* Scroll to top on route change */}
+      <ScrollToTop />
+
       <div className="header-product-page">
         <h1>{selectedCategory === "All" ? "Products" : selectedCategory}</h1>
 
@@ -122,9 +123,7 @@ const ProductsPage = () => {
             <button
               key={cat}
               onClick={() => handleCategoryChange(cat)}
-              className={`category-btn ${
-                selectedCategory === cat ? "active" : ""
-              }`}
+              className={`category-btn ${selectedCategory === cat ? "active" : ""}`}
             >
               {cat}
             </button>

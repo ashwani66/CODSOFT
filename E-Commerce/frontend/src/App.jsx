@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-
+import ScrollToTopButton from "./components/ScrollToTopButton";
 import ScrollToTop from "./components/ScrollToTop";
 import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
@@ -60,6 +60,7 @@ const AppWrapper = () => {
       </Routes>
 
       {!isAdminRoute && <Footer />}
+      <ScrollToTopButton /> {/* ✅ Floating scroll-up button */}
     </>
   );
 };
@@ -67,6 +68,7 @@ const AppWrapper = () => {
 function App() {
   return (
     <Router>
+      <ScrollToTop/>
       <AppWrapper />
     </Router>
   );

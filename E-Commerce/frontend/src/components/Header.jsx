@@ -17,7 +17,7 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const token = localStorage.getItem("token");
-  const menuRef = useRef(null); // Reference for outside click
+  const menuRef = useRef(null);
 
   // ---------- Fetch cart count ----------
   const fetchCartCount = async () => {
@@ -39,13 +39,19 @@ const Header = () => {
     fetchCartCount();
   }, [token]);
 
+  // ---------- Scroll to Top ----------
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setMenuOpen(false);
+  };
+
   // ---------- Handle Search ----------
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim() !== "") {
       navigate(`/products?search=${encodeURIComponent(searchQuery)}`);
       setSearchQuery("");
-      setMenuOpen(false);
+      scrollToTop();
     }
   };
 
@@ -60,7 +66,7 @@ const Header = () => {
     localStorage.removeItem("token");
     if (logout) logout();
     navigate("/login");
-    setMenuOpen(false);
+    scrollToTop();
   };
 
   // ---------- Close menu when clicking outside ----------
@@ -85,13 +91,22 @@ const Header = () => {
 
   return (
     <header className="header" ref={menuRef}>
+      {/* ---------- Logo ---------- */}
       <div className="logo">
-        <NavLink to="/" end onClick={() => setMenuOpen(false)}>
+        <NavLink
+          to="/"
+          end
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/");
+            scrollToTop();
+          }}
+        >
           <img className="logo-img" src="/logo.png" alt="Logo" />
         </NavLink>
       </div>
 
-      {/* Search Bar */}
+      {/* ---------- Search Bar ---------- */}
       <form className="search-bar" onSubmit={handleSearch}>
         <input
           type="text"
@@ -104,7 +119,7 @@ const Header = () => {
         </button>
       </form>
 
-      {/* Hamburger */}
+      {/* ---------- Hamburger ---------- */}
       <div
         className={`hamburger ${menuOpen ? "open" : ""}`}
         onClick={() => setMenuOpen(!menuOpen)}
@@ -114,59 +129,52 @@ const Header = () => {
         <span></span>
       </div>
 
-      {/* Navigation */}
+      {/* ---------- Navigation ---------- */}
       <nav className={`nav-links ${menuOpen ? "active" : ""}`}>
-        <NavLink to="/" end onClick={() => setMenuOpen(false)}>
+        <NavLink to="/" end onClick={scrollToTop}>
           Home
         </NavLink>
-        <NavLink to="/products" onClick={() => setMenuOpen(false)}>
+        <NavLink to="/products" onClick={scrollToTop}>
           Products
         </NavLink>
-        <NavLink to="/cart" onClick={() => setMenuOpen(false)}>
+        <NavLink to="/cart" onClick={scrollToTop}>
           {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           🛒Cart
         </NavLink>
-        <NavLink to="/checkout" onClick={() => setMenuOpen(false)}>
+        <NavLink to="/checkout" onClick={scrollToTop}>
           Checkout
         </NavLink>
 
-        {/* Not logged in */}
         {!user && (
           <>
-            <NavLink to="/login" onClick={() => setMenuOpen(false)}>
+            <NavLink to="/login" onClick={scrollToTop}>
               Login
             </NavLink>
-            <NavLink to="/register" onClick={() => setMenuOpen(false)}>
+            <NavLink to="/register" onClick={scrollToTop}>
               Register
             </NavLink>
-            
           </>
         )}
-<NavLink to="/login" >
-          
+
+        {user && (
           <button className="logout-bttn" onClick={handleLogout}>
             <FaSignOutAlt size={16} /> Logout
           </button>
-        
-            </NavLink>
-  
-        {/* Admin menu */}
-        {user && user.isAdmin && (
-          <>
-            <div
-              className={`admin-menu ${adminOpen ? "active" : ""}`}
-              onClick={handleAdminClick}
-            >
-              <span>Admin ▼</span>
-              <div className="dropdown" onClick={() => setMenuOpen(false)}>
-                <NavLink to="/admin">Dashboard</NavLink>
-                <NavLink to="/admin/users">Users</NavLink>
-                <NavLink to="/admin/products">Products</NavLink>
-                <NavLink to="/admin/orders">Orders</NavLink>
-              </div>
-            </div>
+        )}
 
-          </>
+        {user && user.isAdmin && (
+          <div
+            className={`admin-menu ${adminOpen ? "active" : ""}`}
+            onClick={handleAdminClick}
+          >
+            <span>Admin ▼</span>
+            <div className="dropdown" onClick={scrollToTop}>
+              <NavLink to="/admin">Dashboard</NavLink>
+              <NavLink to="/admin/users">Users</NavLink>
+              <NavLink to="/admin/products">Products</NavLink>
+              <NavLink to="/admin/orders">Orders</NavLink>
+            </div>
+          </div>
         )}
       </nav>
     </header>
