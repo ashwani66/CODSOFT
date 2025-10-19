@@ -222,16 +222,15 @@ body {
 /* ---------- Loading Text ---------- */
 
 .loading-text {
+    grid-column: 1 / -1;   /* span all columns */
     text-align: center;
-    margin-top: 20px;
     font-size: clamp(1rem, 2vw, 1.4rem);
     color: #e880ff;
     font-weight: bold;
-    margin-left: revert-layer;
-    margin: 10px 10px 10px ;
     animation: pulse 1s infinite;
-    width: 100%;
+    margin: 20px 0;
 }
+
 
 @keyframes pulse {
   0%, 100% { opacity: 0.5; }
