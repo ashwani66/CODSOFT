@@ -11,7 +11,6 @@
   top: 0;
   left: 0;
   width: 220px;
-  
   height: 100vh;
   background: #4b0082;
   color: white;
@@ -20,9 +19,11 @@
   flex-direction: column;
   transition: width 0.3s ease, transform 0.3s ease;
   z-index: 1000;
+  overflow: hidden;
 }
 
-.admin-sidebar.sidebar-closed {
+/* Collapsed sidebar */
+.admin-layout.sidebar-closed .admin-sidebar {
   width: 70px;
 }
 
@@ -36,7 +37,13 @@
   transition: all 0.3s ease;
 }
 
-/* Navigation */
+/* Hide text when collapsed */
+.admin-layout.sidebar-closed .admin-sidebar .logo,
+.admin-layout.sidebar-closed .admin-sidebar nav ul li a .text {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .admin-sidebar nav ul {
   list-style: none;
   padding: 0;
@@ -46,7 +53,6 @@
 
 .admin-sidebar nav ul li {
   margin-bottom: 15px;
-  
 }
 
 .admin-sidebar nav ul li a {
@@ -78,7 +84,7 @@
 
 /* Logout Button */
 .logout-btn {
-  margin-top: 200px;
+  margin-top: auto;
   padding: 10px;
   border: none;
   background: #e880ff;
@@ -139,6 +145,23 @@
   font-size: 1.5rem;
 }
 
+.manual-toggle-btn {
+  background: #e880ff;
+  border: none;
+  color: white;
+  font-weight: bold;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: 0.3s;
+}
+
+.manual-toggle-btn:hover {
+  background: #d46fe0;
+}
+
+
 /* Toggle Button */
 .sidebar-btn {
   font-size: 1.5rem;
@@ -169,15 +192,8 @@
   }
 
   .sidebar-btn {
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
+    display: flex;
+  }
 }
 
 @media (max-width: 768px) {
@@ -195,12 +211,6 @@
   }
 
   .sidebar-btn {
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
+    display: flex;
+  }
 }
