@@ -228,7 +228,7 @@ body {
     color: #e880ff;
     font-weight: bold;
     margin-left: revert-layer;
-    margin: 10px 10px 10px 45vw;
+    margin: 10px 10px 10px 50rem;
     animation: pulse 1s infinite;
     width: 100%;
 }
