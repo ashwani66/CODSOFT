@@ -8,7 +8,6 @@ const API = import.meta.env.VITE_API_BASE_URL;
 const ProductDetails = () => {
   const { id } = useParams();
 
-  // ---------- State ----------
   const [product, setProduct] = useState(null);
   const [allProducts, setAllProducts] = useState([]);
   const [mainImage, setMainImage] = useState("");
@@ -27,9 +26,7 @@ const ProductDetails = () => {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   // ---------- Load current user ----------
@@ -74,7 +71,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const loadReviews = async () => {
       try {
-        const data = await fetchReviews(id);
+        const data = await fetchReviews(id); // backend populates user
         setReviews(data);
       } catch (err) {
         console.error("Error fetching reviews:", err);
@@ -86,10 +83,7 @@ const ProductDetails = () => {
   // ---------- Handle review submit ----------
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
-
-    if (!currentUser) {
-      return alert("❌ Please log in first to write a review!");
-    }
+    if (!currentUser) return alert("❌ Please log in first to write a review!");
 
     const reviewData = {
       product: product._id,
@@ -128,12 +122,8 @@ const ProductDetails = () => {
       });
 
       const data = await res.json();
-
-      if (res.ok) {
-        alert(`🛒 ${product.name} added to cart!`);
-      } else {
-        alert(`❌ Failed to add to cart: ${data.message || "Unknown error"}`);
-      }
+      if (res.ok) alert(`🛒 ${product.name} added to cart!`);
+      else alert(`❌ Failed to add to cart: ${data.message || "Unknown error"}`);
     } catch (error) {
       console.error("Add to Cart Error:", error);
       alert("⚠️ Server error while adding to cart");
@@ -165,7 +155,6 @@ const ProductDetails = () => {
 
       {/* ---------- Right Content ---------- */}
       <div className="right-content">
-        {/* Product Details */}
         <div className="details-section">
           <h2>{product.name}</h2>
           <p className="price">₹{product.price}</p>
@@ -178,11 +167,11 @@ const ProductDetails = () => {
           </button>
           <button
             className="rate-btn"
-            onClick={() => {
+            onClick={() =>
               document
                 .getElementById("review-form")
-                ?.scrollIntoView({ behavior: "smooth" });
-            }}
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
           >
             ⭐ Rate this Product
           </button>
@@ -192,7 +181,6 @@ const ProductDetails = () => {
         <div className="reviews-section">
           <h3>Customer Reviews</h3>
 
-          {/* Review Form */}
           {currentUser ? (
             <form
               id="review-form"
@@ -200,8 +188,6 @@ const ProductDetails = () => {
               onSubmit={handleReviewSubmit}
             >
               <label>Rating:</label>
-
-              {/* Custom Dropdown */}
               <div
                 className="custom-dropdown"
                 ref={dropdownRef}
@@ -209,9 +195,7 @@ const ProductDetails = () => {
               >
                 <div className="selected-option">
                   {newReview.rating} ⭐
-                  <span className="arrow-dropdown">
-                    {dropdownOpen ? "▲" : "▼"}
-                  </span>
+                  <span className="arrow-dropdown">{dropdownOpen ? "▲" : "▼"}</span>
                 </div>
 
                 {dropdownOpen && (
@@ -257,30 +241,23 @@ const ProductDetails = () => {
               reviews.map((r) => (
                 <div key={r._id} className="review-card">
                   <p className="review-user">
-                    <b>{r.userName || r.user}</b> -{" "}
+                    <b>{r.userName || r.user?.username || "Anonymous"}</b> -{" "}
                     {new Date(r.createdAt || r.date).toLocaleString()}
                   </p>
                   <p className="review-rating">{"⭐".repeat(r.rating || 0)}</p>
                   <p className="review-comment">{r.comment}</p>
 
-                  {/* Delete button for own reviews */}
-                  {currentUser?.id === r.user && (
+                  {currentUser?.id === r.user?._id && (
                     <button
                       className="delete-btn"
                       onClick={async () => {
-                        if (
-                          !window.confirm(
-                            "Are you sure you want to delete this review?"
-                          )
-                        )
+                        if (!window.confirm("Are you sure you want to delete this review?"))
                           return;
                         try {
                           await fetch(`${API}/api/reviews/${r._id}`, {
                             method: "DELETE",
                             headers: {
-                              Authorization: `Bearer ${localStorage.getItem(
-                                "token"
-                              )}`,
+                              Authorization: `Bearer ${localStorage.getItem("token")}`,
                             },
                           });
                           setReviews(reviews.filter((rev) => rev._id !== r._id));
@@ -315,11 +292,7 @@ const ProductDetails = () => {
                   className="related-card"
                 >
                   <img
-                    src={
-                      item.images?.[0]?.small
-                        ? `${API}/${item.images[0].small}`
-                        : "/images/no-image.png"
-                    }
+                    src={item.images?.[0]?.small ? `${API}/${item.images[0].small}` : "/images/no-image.png"}
                     alt={item.name}
                   />
                   <h4>{item.name}</h4>
