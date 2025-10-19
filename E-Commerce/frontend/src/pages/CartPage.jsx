@@ -48,10 +48,9 @@ const CartPage = () => {
   // ---------- Remove Product ----------
   const removeFromCart = async (productId) => {
     try {
-      const res = await axios.delete(
-        `${API}/api/cart/${productId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await axios.delete(`${API}/api/cart/${productId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setCart(res.data);
     } catch (err) {
       console.error(err);
@@ -70,95 +69,97 @@ const CartPage = () => {
   }, []);
 
   return (
-<div className="cart-container">
-<div className="cart-header">
-  <h1>Shopping Cart</h1>
-</div>
-<div className="cart-page">
+    <div className="cart-container">
+      <div className="cart-header">
+        <h1>Shopping Cart</h1>
+      </div>
+      <div className="cart-page">
+        {loading && <p className="loading">Loading...</p>}
+        {/* {error && <p className="error">{error}</p>} */}
 
-      {loading && <p className="loading">Loading...</p>}
-      {/* {error && <p className="error">{error}</p>} */} 
+        {cart.products.length === 0 ? (
+          <p className="empty">Your cart is empty</p>
+        ) : (
+          <div className="cart-content">
+            {/* ---------- Left: Cart Items ---------- */}
+            <div className="cart-items">
+              {cart.products.map((item) => (
+                <div className="cart-item" key={item.productId._id}>
+                  <img
+                    src={
+                      item.productId.images?.[0]
+                        ? `${API}/${item.productId.images[0].small}` // use small size for thumbnails
+                        : "/images/no-image.png"
+                    }
+                    alt={item.productId.name}
+                    className="cart-item-image"
+                  />
 
-      {cart.products.length === 0 ? (
-        <p className="empty">Your cart is empty</p>
-      ) : (
-        <div className="cart-content">
-          {/* ---------- Left: Cart Items ---------- */}
-          <div className="cart-items">
-            {cart.products.map((item) => (
-              <div className="cart-item" key={item.productId._id}>
-                <img
-                  src={`${API}/${item.productId.images[0]}`}
-                  alt={item.productId.name}
-                  className="cart-item-image"
-                />
-                <div className="cart-item-details">
-                  <h3>{item.productId.name}</h3>
-                  <p className="price">₹{item.productId.price}</p>
-                  <div className="quantity-controls">
+                  <div className="cart-item-details">
+                    <h3>{item.productId.name}</h3>
+                    <p className="price">₹{item.productId.price}</p>
+                    <div className="quantity-controls">
+                      <button
+                        onClick={() =>
+                          updateQuantity(item.productId._id, item.quantity - 1)
+                        }
+                      >
+                        -
+                      </button>
+                      <span>{item.quantity}</span>
+                      <button
+                        onClick={() =>
+                          updateQuantity(item.productId._id, item.quantity + 1)
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
+                    <p className="subtotal">
+                      Subtotal: ₹{item.productId.price * item.quantity}
+                    </p>
                     <button
-                      onClick={() =>
-                        updateQuantity(item.productId._id, item.quantity - 1)
-                      }
+                      className="remove-btn"
+                      onClick={() => removeFromCart(item.productId._id)}
                     >
-                      -
-                    </button>
-                    <span>{item.quantity}</span>
-                    <button
-                      onClick={() =>
-                        updateQuantity(item.productId._id, item.quantity + 1)
-                      }
-                    >
-                      +
+                      Remove
                     </button>
                   </div>
-                  <p className="subtotal">
-                    Subtotal: ₹{item.productId.price * item.quantity}
-                  </p>
-                  <button
-                    className="remove-btn"
-                    onClick={() => removeFromCart(item.productId._id)}
-                  >
-                    Remove
-                  </button>
                 </div>
+              ))}
+            </div>
+
+            {/* ---------- Right: Cart Summary ---------- */}
+            <div className="cart-summary">
+              <h2 className="summary-title">Price Details</h2>
+
+              <div className="summary-products">
+                {cart.products.map((item) => (
+                  <div className="summary-item" key={item.productId._id}>
+                    <span className="summary-name">
+                      {item.productId.name} × {item.quantity}
+                    </span>
+                    <span className="summary-price">
+                      ₹{item.productId.price * item.quantity}
+                    </span>
+                  </div>
+                ))}
               </div>
-            ))}
+
+              <hr />
+
+              <div className="summary-total">
+                <span>Total Amount</span>
+                <span>₹{totalPrice}</span>
+              </div>
+
+              <NavLink to={"/checkout"}>
+                <button className="checkout-btn"> Proceed to Buy </button>
+              </NavLink>
+            </div>
           </div>
-
-          {/* ---------- Right: Cart Summary ---------- */}
-<div className="cart-summary">
-  <h2 className="summary-title">Price Details</h2>
-
-  <div className="summary-products">
-    {cart.products.map((item) => (
-      <div className="summary-item" key={item.productId._id}>
-        <span className="summary-name">
-          {item.productId.name} × {item.quantity}
-        </span>
-        <span className="summary-price">
-          ₹{item.productId.price * item.quantity}
-      
-        </span>
-        
+        )}
       </div>
-      
-    ))}
-  </div>
-
-  <hr />
-
-  <div className="summary-total">
-    <span>Total Amount</span>
-    <span>₹{totalPrice}</span>
-  </div>
-
-
- <NavLink to={"/checkout"}><button className="checkout-btn"> Proceed to Buy </button></NavLink>
-</div>
-        </div>
-      )}
-    </div>
     </div>
   );
 };

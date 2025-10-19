@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "r
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
+import ScrollToTop from "./components/ScrollToTop";
 import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
 import ProductDetails from "./pages/ProductDetails";
@@ -28,6 +29,7 @@ const AppWrapper = () => {
 
   return (
     <>
+    <ScrollToTop/>
       {!isAdminRoute && <Header />}
 
       <Routes>

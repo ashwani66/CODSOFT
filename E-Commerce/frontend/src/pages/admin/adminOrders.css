@@ -107,13 +107,24 @@ select:disabled {
 }
 
 .delete-btn {
-  background-color: #ff4d4f;
+  background-color: #ff4d4f; /* red background */
   color: white;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  transition: all 0.3s ease-in-out; /* animate all properties smoothly */
+  padding: 5px 10px; /* optional: add some padding */
+  border: none;
+  cursor: pointer;
 }
 
 .delete-btn:hover {
-  background-color: #e60000;
+  background-color: #e60000; /* darker red on hover */
+  border-top-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
+
 
 /* ---------- Messages ---------- */
 .error {
