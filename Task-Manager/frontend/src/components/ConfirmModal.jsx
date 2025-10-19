@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import "./ConfirmModal.css"
+import "./confirmModal.css"
 export default function ConfirmModal({
   visible,
   title = "Confirm",
