@@ -111,9 +111,7 @@
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
   width: fit-content;
-  margin-top: 10px;
-  margin-left: 45px;
-  margin-right: 45px;
+ margin: auto;
 }
 
 .add-to-cart-btn:hover,

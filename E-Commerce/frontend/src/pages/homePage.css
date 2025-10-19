@@ -92,7 +92,7 @@ body {
 .products-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  background: #000;
+  background: #00000012;
   gap: clamp(15px, 3vw, 35px);
   padding: clamp(10px, 2vw, 20px);
 }
@@ -189,7 +189,7 @@ body {
   display: grid;
   grid-template-columns: repeat(6, 1fr); /* 6 per row */
   gap: clamp(15px, 3vw, 35px);
-  padding: clamp(10px, 2vw, 20px);
+  padding: clamp(10px, 2vw, 30px);
 }
 .category-banner {
   width: 100%;

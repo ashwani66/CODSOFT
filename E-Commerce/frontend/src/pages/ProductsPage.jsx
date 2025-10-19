@@ -5,17 +5,34 @@ import ProductCard from "../components/ProductCard";
 import "./productsPage.css";
 
 const ProductsPage = () => {
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
-    const API = import.meta.env.VITE_API_BASE_URL;
-
   const location = useLocation();
 
-  // Get search query from URL
+  // Function to get category query from URL
+  const getCategoryQuery = () => {
+    return new URLSearchParams(location.search).get("category") || "All";
+  };
+
+  // Function to get search query from URL
   const getSearchQuery = () => {
     return new URLSearchParams(location.search).get("search") || "";
   };
+
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(getCategoryQuery());
+
+  const categories = [
+    "All",
+    "Shirts",
+    "Shoes",
+    "Pants",
+    "Accessories",
+    "Electronics",
+    "Bags",
+    "Hats",
+    "Jackets",
+    "Watches",
+  ];
 
   // Fetch products on mount
   useEffect(() => {
@@ -26,12 +43,19 @@ const ProductsPage = () => {
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         setProducts(sorted);
-        setFilteredProducts(sorted);
       })
       .catch((err) => console.error(err));
   }, []);
 
-  // Filter products based on category & search query
+  // Update selectedCategory if URL changes
+  useEffect(() => {
+    const categoryFromURL = getCategoryQuery();
+    if (categoryFromURL !== selectedCategory) {
+      setSelectedCategory(categoryFromURL);
+    }
+  }, [location.search]);
+
+  // Filter products based on selectedCategory & search query
   useEffect(() => {
     const query = getSearchQuery().toLowerCase();
     let filtered = [...products];
@@ -56,12 +80,14 @@ const ProductsPage = () => {
     }
 
     setFilteredProducts(filtered);
-  }, [location.search, selectedCategory, products]);
+  }, [products, selectedCategory, location.search]);
 
+  // Handle category button click
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
   };
 
+  // Handle Add to Cart
   const handleAddToCart = async (productId) => {
     try {
       const token = localStorage.getItem("token");
@@ -86,23 +112,10 @@ const ProductsPage = () => {
     }
   };
 
-  const categories = [
-    "All",
-    "Shirts",
-    "Shoes",
-    "Pants",
-    "Accessories",
-    "Electronics",
-    "Bags",
-    "Hats",
-    "Jackets",
-    "Watches",
-  ];
-
   return (
     <div className="products-page">
       <div className="header-product-page">
-        <h1>Products</h1>
+        <h1>{selectedCategory === "All" ? "Products" : selectedCategory}</h1>
 
         <div className="categories">
           {categories.map((cat) => (
@@ -128,7 +141,7 @@ const ProductsPage = () => {
               key={p._id}
               product={p}
               onAddToCart={handleAddToCart}
-              imageSize="small" // use small image for grid
+              imageSize="small"
             />
           ))
         )}

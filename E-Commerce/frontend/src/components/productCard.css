@@ -203,7 +203,8 @@
 @media (max-width: 480px) {
   .product-card {
     max-width: 95%;
-    margin: 4px auto;
+    width: 90%;
+    margin: auto 0px auto;
   }
 
   .product-image {

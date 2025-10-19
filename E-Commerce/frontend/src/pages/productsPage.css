@@ -2,7 +2,7 @@
 .products-page {
   padding: clamp(10px, 2vw, 20px);
   text-align: center;
-  max-width: 1400px;
+  max-width: 1865px;
   margin: auto;
 }
 
@@ -194,7 +194,8 @@
 /* Grid Adjustments for Screens */
 @media screen and (min-width: 1200px) {
   .products-grid {
-    grid-template-columns: repeat(4, 1fr); /* Always 4 items on big screens */
+        padding-left: 5px;
+    grid-template-columns: repeat(5, 1fr); /* Always 4 items on big screens */
   }
 }
 
@@ -212,7 +213,7 @@
 
 @media screen and (max-width: 480px) {
   .products-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 items per row on mobiles */
+    grid-template-columns: repeat(1, 1fr); /* 2 items per row on mobiles */
     gap: 20px;
   }
 }
