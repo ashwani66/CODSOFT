@@ -1,0 +1,17 @@
+.toast {
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: #07121d;
+  min-width: 180px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+  margin-bottom: 8px;
+}
+
+.toast.success {
+  background: linear-gradient(90deg, var(--accent), #3bd48a);
+}
+
+.toast.error {
+  background: #ffb4b4;
+  color: #2b0505;
+}
